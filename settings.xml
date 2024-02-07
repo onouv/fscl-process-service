@@ -1,0 +1,11 @@
+<settings>
+  <servers>
+    <server>
+      <!-- Id has to match the repository id provided in pom.xml -->
+      <id>reposilite-repository</id>
+      <username>ono</username>
+      <password>fscladmin</password>
+    </server>
+  </servers>
+</settings>
+
