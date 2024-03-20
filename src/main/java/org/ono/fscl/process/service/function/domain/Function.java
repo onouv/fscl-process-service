@@ -2,10 +2,15 @@ package org.ono.fscl.process.service.function.domain;
 
 
 import ono.fscl.core.domain.entity.id.FsclEntityId;
+import ono.fscl.core.domain.entity.id.SegmentFormatException;
 import ono.fscl.core.domain.function.FunctionBase;
 import ono.fscl.core.domain.function.FunctionCode;
+import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
+import org.ono.fscl.process.service.function.domain.commands.CreateFunctionCmd;
+
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 
 @Aggregate
@@ -27,13 +32,23 @@ public class Function extends FunctionBase {
         }
         @Override
         public Function build() {
-            FunctionCode code = FunctionCode.builder().withbuild();
-            return new Function(this.identifier, this.project, this.parent, this.name, this.description);
+            try {
+                FunctionCode code = FunctionCode.builder().build();
+                return new Function(code, "huhu", null, "Feedwater Supply", "");
+            } catch (SegmentFormatException e) {
+                return null;
+            }
         }
     }
 
-    private Function(FsclEntityId<FunctionCode> id, Function parent, String name, String description) {
-        super(new FsclEntityId<FunctionCode>(id, project), parent, name, description);
+    @CommandHandler
+    public handle(CreateFunctionCmd cmd) {
+
+
+    }
+
+    private Function(FunctionCode code, String project, Function parent, String name, String description) {
+        super(new FsclEntityId<FunctionCode>(code, project), parent, name, description);
     }
 
     @Override

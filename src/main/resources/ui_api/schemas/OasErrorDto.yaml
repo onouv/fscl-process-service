@@ -1,0 +1,9 @@
+type: object
+properties:
+  error:
+    type: number
+    example: 000
+  message:
+    type: string
+    example: unknown error
+  
