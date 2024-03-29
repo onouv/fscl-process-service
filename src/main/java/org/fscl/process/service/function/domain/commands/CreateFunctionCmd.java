@@ -1,4 +1,4 @@
-package org.ono.fscl.process.service.function.domain.commands;
+package org.fscl.process.service.function.domain.commands;
 
 import ono.fscl.core.domain.entity.id.FsclEntityId;
 import ono.fscl.core.domain.function.FunctionCode;

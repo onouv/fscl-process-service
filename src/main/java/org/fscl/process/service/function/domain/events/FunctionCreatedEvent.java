@@ -1,4 +1,4 @@
-package org.ono.fscl.process.service.function.domain.events;
+package org.fscl.process.service.function.domain.events;
 
 import ono.fscl.core.domain.function.FunctionCode;
 
