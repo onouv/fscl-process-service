@@ -1,13 +1,12 @@
 package org.fscl.process.service.function.ports.upstream.web;
 
-import org.fscl.core.ports.upstream.web.id.FsclEntityIdDto;
+import jakarta.enterprise.context.ApplicationScoped;
+import org.fscl.core.domain.entity.id.FsclEntityId;
+import org.fscl.process.service.function.domain.Function;
+
 
 public interface FunctionLifeCycleService {
 
-    /**
-     * Create a single function entity as identified by the dto.
-     * @param dto
-     * @return the
-     */
-    public FsclEntityIdDto createFunction(FsclEntityIdDto dto);
+    Function createFunction(FsclEntityId id, String name, String description);
+
 }
