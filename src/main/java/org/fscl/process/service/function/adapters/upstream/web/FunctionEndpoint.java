@@ -1,7 +1,7 @@
 package org.fscl.process.service.function.adapters.upstream.web;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
+
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -22,9 +22,12 @@ public class FunctionEndpoint {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public RestResponse<EntityExistingResponseDto> createFunction(CreateEntityRequestDto dto) {
+    public RestResponse<EntityExistingResponseDto> createFunction(CreateEntityRequestDto dto) throws Exception {
         System.out.println("Creating function...");
         Function function = lifeCycleService.createFunction(dto.getId(), dto.getName(), dto.getDescription());
-        return RestResponse.ok(new EntityExistingResponseDto(function.getIdentifier(), FsclEntityState.InView));
+        return RestResponse.ok(new EntityExistingResponseDto(
+                function.getIdentifier(),
+                FsclEntityState.PreexistingInView));
+
     }
 }
