@@ -7,14 +7,10 @@ import jakarta.transaction.Transactional;
 
 import org.fscl.core.domain.entity.id.FsclEntityId;
 import org.fscl.core.domain.events.FsclDomainEvent;
-import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
-import org.fscl.process.service.function.adapters.downstream.persistence.FunctionRepo;
 import org.fscl.process.service.function.domain.CreationService;
 import org.fscl.process.service.function.domain.Function;
 import org.fscl.process.service.function.ports.upstream.web.FunctionCreationResult;
 import org.fscl.process.service.function.ports.upstream.web.FunctionLifeCycleService;
-
-import java.util.Optional;
 
 @ApplicationScoped
 public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {

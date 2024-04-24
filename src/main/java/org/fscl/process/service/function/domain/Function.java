@@ -17,13 +17,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @Entity
-//@Table(name = "function")
 public class Function extends FsclEntity<Function> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", updatable = false, nullable = false)
-    private Long id;
 
     protected Function(String code, String project, Function parent, String name, String description) {
         super(new FsclEntityId(code, project), parent, name, description);
@@ -31,7 +25,7 @@ public class Function extends FsclEntity<Function> {
 
     public FunctionCreationResult created() {
         List<FsclDomainEvent> events = new ArrayList<>();
-        events.add(new FunctionCreatedEvent(this.identifier, this.name, this.description));
-        return new FunctionCreationResult(this.identifier, FsclEntityState.CreatedInView, events);
+        events.add(new FunctionCreatedEvent(this.entityId, this.name, this.description));
+        return new FunctionCreationResult(this.entityId, FsclEntityState.CreatedInView, events);
     }
 }
