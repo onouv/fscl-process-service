@@ -1,0 +1,21 @@
+type: object
+required:
+  - code
+  - prefix
+  - separator
+properties:
+  code:
+    type: string
+    example: =100.001
+  prefix:
+    type: string
+    example: (=
+  postfix:
+    type: string
+    example: )
+  separator:
+    type: string
+    example: .
+  project:
+    type: string
+    example: test

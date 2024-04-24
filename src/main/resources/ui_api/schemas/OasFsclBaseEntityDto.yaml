@@ -1,0 +1,12 @@
+type: object
+required:
+  - id
+properties:
+  id:
+    $ref: './OasFsclEntityIdDto.yaml'
+  name:
+    type: string
+    example: Feed water Supply
+  description:
+    type: string
+    example: Supply feed water to process

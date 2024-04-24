@@ -1,0 +1,29 @@
+services:
+  #service:
+  #  image: fscl/fscl-process-service:${FSCL_PROCESS_SERVICE_VERSION}
+  #  build:
+  #    context: fscl-process-service
+  #    dockerfile: src/main/docker/Dockerfile.${QUARKUS_BUILD:-jvm}
+  #  links:
+  #    - fscl-process-db
+  #  ports:
+  #    - 9010:8080
+  #  networks:
+  #    - process-network
+  #  command: "./application -Dquarkus.datasource.jdbc.url=jdbc:postgresql://fscl-process-db:5432/processdb -Dquarkus.datasource.username=fsclusr -Dquarkus.datasource.password=example"
+  database:
+    image: ubuntu/postgres
+  #  restart: always
+    env_file:
+      - .db-env
+    ports:
+      - 9020:5432
+  #  networks:
+  #    - process-network
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d
+
+networks:
+  process-network:
+    driver: bridge
+
