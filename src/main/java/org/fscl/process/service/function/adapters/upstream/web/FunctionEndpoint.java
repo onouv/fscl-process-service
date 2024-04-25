@@ -6,15 +6,13 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import org.fscl.core.adapters.upstream.web.lifecycle.*;
 import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
 import org.fscl.process.service.function.ports.upstream.web.FunctionLifeCycleService;
 import org.fscl.process.service.function.domain.Function;
-import org.jboss.resteasy.reactive.RestQuery;
 import org.jboss.resteasy.reactive.RestResponse;
-import io.quarkus.logging.Log;
-@Path("/fscl/v2/functions")
+
+@Path("/fscl/v2/process/function")
 public class FunctionEndpoint {
 
     @Inject
@@ -24,12 +22,22 @@ public class FunctionEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/create")
     public RestResponse<EntityExistingResponseDto> createFunction(CreateEntityRequestDto dto) throws Exception {
-        System.out.println("Creating function...");
 
         Function function = lifeCycleService.createFunction(dto.getId(), dto.getName(), dto.getDescription());
-        return RestResponse.ok(new EntityExistingResponseDto(
-                function.getEntityId(),
-                function.getState()));
-
+        FsclEntityState state = function.getState();
+        switch(state) {
+            case CreatedInView:
+                return RestResponse.ok(new EntityExistingResponseDto(
+                        function.getEntityId(),
+                        state));
+            case PreexistingInView:
+                return RestResponse.status(RestResponse.Status.CONFLICT, new EntityExistingResponseDto(
+                        function.getEntityId(),
+                        state));
+            default:
+                throw new Exception(
+                        String.format("function was created with unexpected state: %s",
+                        state));
+        }
     }
 }

@@ -12,7 +12,7 @@ import org.fscl.process.service.function.domain.Function;
 public class FunctionRepository implements PanacheRepository<Function> {
 
     public Optional<Function> findById(FsclEntityId id) throws PersistenceException {
-        final PanacheQuery<Function> q = find("entityId = ?1", id);
+        final PanacheQuery<Function> q = find("project = ?1 and code = ?2", id.project(), id.code());
         Optional<Function> opt = q.firstResultOptional();
         return opt;
     }

@@ -1,5 +1,6 @@
 package org.fscl.process.service.function.domain;
 
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.Optional;
@@ -20,17 +21,20 @@ public class CreationService {
         if (viewFunction.isPresent()) {
             Function preexistingFunction = viewFunction.get();
             preexistingFunction.setState(FsclEntityState.PreexistingInView);
-
+            Log.info(String.format("function %s found preexisting n view.", preexistingFunction.getEntityId().toString()));
             return preexistingFunction;
         }
 
+
         Function newFunction = Function.builder()
-                .entityId(id)
+                .project(id.project())
+                .code(id.code())
                 .name(name)
                 .description(description)
                 .state(FsclEntityState.CreatedInView)
                 .build();
         this.repo.persist(newFunction);
+        Log.info(String.format("created new function %s in view.", newFunction.getEntityId().toString()));
 
         return newFunction;
     }
