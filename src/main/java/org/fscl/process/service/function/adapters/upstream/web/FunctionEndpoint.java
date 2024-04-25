@@ -7,7 +7,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.fscl.core.adapters.upstream.web.lifecycle.*;
+import org.fscl.core.appservices.EntityRecord;
 import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
+import org.fscl.process.service.function.ports.upstream.web.FunctionCreationResult;
 import org.fscl.process.service.function.ports.upstream.web.FunctionLifeCycleService;
 import org.fscl.process.service.function.domain.Function;
 import org.jboss.resteasy.reactive.RestResponse;
@@ -23,16 +25,16 @@ public class FunctionEndpoint {
     @Path("/create")
     public RestResponse<EntityExistingResponseDto> createFunction(CreateEntityRequestDto dto) throws Exception {
 
-        Function function = lifeCycleService.createFunction(dto.getId(), dto.getName(), dto.getDescription());
-        FsclEntityState state = function.getState();
+        EntityRecord result = lifeCycleService.createFunction(dto.getId(), dto.getName(), dto.getDescription());
+        FsclEntityState state = result.state();
         switch(state) {
             case CreatedInView:
                 return RestResponse.ok(new EntityExistingResponseDto(
-                        function.getEntityId(),
+                        result.id(),
                         state));
             case PreexistingInView:
                 return RestResponse.status(RestResponse.Status.CONFLICT, new EntityExistingResponseDto(
-                        function.getEntityId(),
+                        result.id(),
                         state));
             default:
                 throw new Exception(
