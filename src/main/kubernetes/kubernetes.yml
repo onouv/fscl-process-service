@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: process-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: process-db
+  template:
+    metadata:
+      labels:
+        service: process-db
+    spec:
+      containers:
+        - name: postgres-process-db
+          image: postgres:16.3
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: process
+            - name: POSTGRES_USER
+              value: fscl-process
+            - name: POSTGRES_PASSWORD
+              value: fscl-process-pass
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    service: process-db
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-datasource-props
+data:
+  POSTGRESQL_URL: "jdbc:postgresql://postgres:5432/process"
+  POSTGRESQL_USERNAME: "fscl-process"
+  POSTGRESQL_PASSWORD: "fscl-process-pass"

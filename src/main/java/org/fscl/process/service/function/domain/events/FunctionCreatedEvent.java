@@ -19,13 +19,13 @@ public class FunctionCreatedEvent extends FsclDomainEvent implements ExportedEve
 
     private final long id;
     private final Instant timestamp;
-    private final JsonNode payload;
+    private final JsonNode function;
 
     private static ObjectMapper mapper = new ObjectMapper();
 
     public FunctionCreatedEvent(long id, JsonNode function) {
         this.id = id;
-        this.payload = function;
+        this.function = function;
         this.timestamp = Instant.now();
     }
 
@@ -52,7 +52,7 @@ public class FunctionCreatedEvent extends FsclDomainEvent implements ExportedEve
 
     @Override
     public JsonNode getPayload() {
-        return this.payload;
+        return this.function;
     }
 
     public static FunctionCreatedEvent of(Function function) {
@@ -69,4 +69,9 @@ public class FunctionCreatedEvent extends FsclDomainEvent implements ExportedEve
 
         return new FunctionCreatedEvent(function.getId(), jsonEvent);
     }
+
+    public String toString() {
+        return "{ id: " + this.id + ", function: " + this.function.toString() + "timestamp: " + this.timestamp.toString() + " }";
+    }
+
 }

@@ -51,9 +51,12 @@
 			<artifactId>quarkus-rest-jackson</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.debezium</groupId>
-			<artifactId>debezium-quarkus-outbox</artifactId>
-			<version>2.5.4.Final</version>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-kubernetes</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-container-image-jib </artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -77,6 +80,11 @@
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.debezium</groupId>
+			<artifactId>debezium-quarkus-outbox</artifactId>
+		</dependency>
 
 		<!-- general utils -->
 		<dependency>
@@ -85,14 +93,11 @@
 			<version>1.18.32</version>
 			<optional>true</optional>
 		</dependency>
-
-		<!-- Swagger/ OpenAPI -->
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>0.2.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
@@ -108,6 +113,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.1</version>
 		</dependency>
+
 		<!-- FSCL specific -->
 		<dependency>
 			<groupId>org.fscl</groupId>
@@ -123,6 +129,7 @@
 			<url>http://localhost:4040/snapshots</url>
 		</repository>
 	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>

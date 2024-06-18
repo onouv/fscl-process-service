@@ -1,5 +1,7 @@
 package org.fscl.process.service.function.appservices;
 
+import io.quarkus.logging.Log;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
@@ -28,7 +30,8 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
         FunctionCreationResult result = domainService.create(id, name, description);
 
         for(FsclDomainEvent evt: result.events()) {
-            this.event.fire(evt);
+            Log.info("Would fire event: " + event.toString());
+            //this.event.fire(evt);
         }
         return new EntityRecord(result.function().getEntityId(), result.state());
     }

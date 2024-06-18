@@ -3,6 +3,8 @@ package org.fscl.process.service.function.adapters.downstream.persistence;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+
+import java.util.List;
 import java.util.Optional;
 
 import org.fscl.core.domain.entity.id.FsclEntityId;
@@ -16,4 +18,14 @@ public class FunctionRepository implements PanacheRepository<Function> {
         Optional<Function> opt = q.firstResultOptional();
         return opt;
     }
+
+    // TODO: write transformer
+    /*
+    public List<Function> findAllForProject(String projectId) {
+        final PanacheQuery<Function> q = find("project = ?1", projectId);
+        q.stream().map((Function f) => {
+            return new
+        })
+    }
+    */
 }
