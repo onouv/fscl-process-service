@@ -1,5 +1,6 @@
 package org.fscl.process.service.function.adapters.upstream.web;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
 
@@ -18,8 +19,10 @@ import org.fscl.process.service.function.domain.Function;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Path("/fscl/v2/process/function")
 public class FunctionEndpoint {
@@ -61,14 +64,14 @@ public class FunctionEndpoint {
         }
     }
 
-    // TODO: write endpoint
-    /*
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public RestResponse<List<EntityExistingResponseDto>> getAllFunctions() {
-        PanacheQuery<Function> functions = repository.findAll();
+    public RestResponse<List<FunctionDto>> getAllFunctions(String projectId) {
+        List<FunctionDto> functions = repository.findAllForProject(projectId)
+                .stream()
+                .map(f -> FunctionDto.of(f))
+                .collect(Collectors.toList());
 
+        return RestResponse.ok(functions);
     }
-
-     */
 }
