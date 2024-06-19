@@ -25,7 +25,7 @@ public class Function extends FsclEntity<Function> {
 
     public FunctionCreationResult created() {
         List<FsclDomainEvent> events = new ArrayList<>();
-        events.add(new FunctionCreatedEvent(this.getEntityId(), this.name, this.description));
-        return new FunctionCreationResult(this.getEntityId(), FsclEntityState.CreatedInView, events);
+        events.add(FunctionCreatedEvent.of(this));
+        return new FunctionCreationResult(this, FsclEntityState.CreatedInView, events);
     }
 }

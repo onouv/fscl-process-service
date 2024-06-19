@@ -1,0 +1,2 @@
+#!/bin/bash
+http PUT http://localhost:8083/connectors/outbox-connector/config < ./init-outbox.json

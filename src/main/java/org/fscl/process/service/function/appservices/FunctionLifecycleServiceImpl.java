@@ -1,14 +1,16 @@
 package org.fscl.process.service.function.appservices;
 
+import io.quarkus.logging.Log;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import org.fscl.core.appservices.EntityRecord;
 import org.fscl.core.domain.entity.id.FsclEntityId;
 import org.fscl.core.domain.events.FsclDomainEvent;
 import org.fscl.process.service.function.domain.CreationService;
-import org.fscl.process.service.function.domain.Function;
 import org.fscl.process.service.function.ports.upstream.web.FunctionCreationResult;
 import org.fscl.process.service.function.ports.upstream.web.FunctionLifeCycleService;
 
@@ -23,14 +25,14 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
     @Override
     @Transactional
-    public Function createFunction(FsclEntityId id, String name, String description) {
+    public EntityRecord createFunction(FsclEntityId id, String name, String description) {
 
-        Function func = domainService.create(id, name, description);
+        FunctionCreationResult result = domainService.create(id, name, description);
 
-        FunctionCreationResult result = func.created();
         for(FsclDomainEvent evt: result.events()) {
-            this.event.fire(evt);
+            Log.info("Would fire event: " + event.toString());
+            //this.event.fire(evt);
         }
-        return func;
+        return new EntityRecord(result.function().getEntityId(), result.state());
     }
 }
