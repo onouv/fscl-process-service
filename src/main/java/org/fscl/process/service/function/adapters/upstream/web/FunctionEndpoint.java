@@ -4,10 +4,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.fscl.core.adapters.upstream.web.lifecycle.*;
 import org.fscl.core.appservices.EntityRecord;
@@ -66,7 +63,8 @@ public class FunctionEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public RestResponse<List<FunctionDto>> getAllFunctions(String projectId) {
+    @Path("/by-project/{projectId}")
+    public RestResponse<List<FunctionDto>> getAllFunctions(@PathParam("projectId") String projectId) {
         List<FunctionDto> functions = repository.findAllForProject(projectId)
                 .stream()
                 .map(f -> FunctionDto.of(f))
