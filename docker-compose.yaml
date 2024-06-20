@@ -1,0 +1,71 @@
+services:
+  #service:
+  #  image: fscl/fscl-process-service:${FSCL_PROCESS_SERVICE_VERSION}
+  #  build:
+  #    context: fscl-process-service
+  #    dockerfile: src/main/docker/Dockerfile.${QUARKUS_BUILD:-jvm}
+  #  links:
+  #    - fscl-process-db
+  #  ports:
+  #    - 9010:8080
+  #  networks:
+  #    - process-network
+  #  command: "./application -Dquarkus.datasource.jdbc.url=jdbc:postgresql://fscl-process-db:5432/processdb -Dquarkus.datasource.username=fsclusr -Dquarkus.datasource.password=example"
+  zookeeper:
+    image: quay.io/debezium/zookeeper:${DEBEZIUM_VERSION}
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+  kafka:
+    image: quay.io/debezium/kafka:${DEBEZIUM_VERSION}
+    ports:
+      - 9092:9092
+    links:
+      - zookeeper
+    environment:
+      - ZOOKEEPER_CONNECT=zookeeper:2181
+  connect:
+    image: debezium/strimzi-connect
+    build:
+      context: debezium-strimzi
+      args:
+        DEBEZIUM_CONNECTOR_VERSION: "${DEBEZIUM_CONNECTOR_VERSION:-2.4.0.Alpha2}"
+        STRIMZI_VERSION: "${STRIMZI_VERSION:-latest-kafka-3.5.1}"
+    ports:
+      - 8083:8083
+    links:
+      - kafka
+      - database
+    environment:
+      - KAFKA_LOG4J_OPTS=-Dlog4j.configuration=file:/opt/kafka/config/connect-log4j.properties
+      - KAFKA_CONNECT_BOOTSTRAP_SERVERS=kafka:9092
+      - |
+        KAFKA_CONNECT_CONFIGURATION=
+        key.converter=org.apache.kafka.connect.json.JsonConverter
+        value.converter=org.apache.kafka.connect.json.JsonConverter
+        key.converter.schemas.enable=false
+        value.converter.schemas.enable=false
+        group.id=fscl
+        offset.storage.topic=connect-offsets
+        offset.storage.replication.factor=1
+        config.storage.topic=connect-configs
+        config.storage.replication.factor=1
+        status.storage.topic=connect-status
+        status.storage.replication.factor=1
+        producer.interceptor.classes=io.debezium.tracing.DebeziumTracingProducerInterceptor
+
+    command: /opt/kafka/kafka_connect_run.sh
+  database:
+    image: quay.io/debezium/example-postgres:${DEBEZIUM_VERSION}
+  #  restart: always
+    env_file:
+      - .db-env
+    ports:
+      - 9020:5432
+  #  networks:
+  #    - process-network
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d
+
+

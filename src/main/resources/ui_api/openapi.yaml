@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: Process Service API
+  description: Commands and Queries
+  version: 1.0.0
+servers:
+  - url: 'fscl/process/v0.1/'
+paths:
+  /function/create:
+    post:
+      tags:
+        - ProcessFunction
+      summary: create new function in process view
+      operationId: createFunctions
+      requestBody:
+        description: create new function
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/commands/OasCreateFunctionsCmdDto.yaml'
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/OasFsclEntityIdDto.yaml'
+        '304':
+          description: preexisting
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/OasFsclEntityIdDto.yaml'
+        '409':
+          description: shadow element existing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OasShadowDetected'
+        '500':
+          description: unknown server error
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/OasErrorDto.yaml'
+
+components:
+    schemas:
+      OasShadowDetected:
+        type: string
+        enum:
+          - SHADOW_IDENTICAL
+          - SHADOW_DIFFERENT
+
+
+  
