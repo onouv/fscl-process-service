@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: process-db
+  name: fscl-process-service
 spec:
   replicas: 1
   selector:
@@ -19,7 +19,7 @@ spec:
             - containerPort: 5432
           env:
             - name: POSTGRES_DB
-              value: process
+              value: fscl-process-db
             - name: POSTGRES_USER
               value: fscl-process
             - name: POSTGRES_PASSWORD
