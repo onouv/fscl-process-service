@@ -1,9 +1,31 @@
 
 ```bash
-fsl-project-service/
+fscl-process-service/
+	/resources/
+		web/
+			openapi.yaml
+			schemas/
+				data/
+					... data dto schemas ...
+				commands/
+					... cmd dto schemas ...
+	target/
+		generated-sources/
+			openapi/
+				src/main/java/ono.org.process.openapi/					
+					uiApi/
+						api/
+							... interfaces and controllers ...
+							... starting with 'Oas' ...
+							OasFunctionApi.java
+							OasSystemApi.java
+							...
+						model/
+							... data dtos ...
 	src/
 		main/
-			java.org.ono.fscl/process/service/
+			java/org/ono/fscl/process/service/
+				functions/
 					adapters/
 						upstream/
 							FunctionController.java
@@ -11,15 +33,19 @@ fsl-project-service/
 							...
 					ports/
 						upstream/
-							FunctionLifecyclePort.java
+							web/
+								FunctionsApi.java  
+								# extends ono.org.process.openapi.OasFunctionsApi
 						downstream/
-							FunctionRepository.java
+							FunctionsRepository.java
 							...
 					appservices/
-						FunctionLifecycleService.java
+						FunctionsLifecycleService.java
+						FunctionsConnectorService.java
+						FunctionsParameterService.java
 					domain/
 						Function.java
-				system/
+				systems/
 					adapters/
 						upstream/
 							...
@@ -27,7 +53,9 @@ fsl-project-service/
 							...
 					ports/
 						upstream/
-							...
+							web/
+								SystemsApi.java  
+								# extends ono.org.process.openapi.OasSystemsApi
 						downstream/
 							...
 					appservices/

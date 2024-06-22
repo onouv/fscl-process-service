@@ -4,64 +4,45 @@
 hide empty members
 package fscl {
 
-	package core {
-
-		package entity {
-			class Entity
-		}
-		package function {
-			class FunctionBase
-		}
-
-		package component {
-			class ComponentBase
-		}
-		
-		package parameter {
-			abstract class Parameter {
-				name
-				value
-			}		
-			Parameter --> "0..*" Parameter
-		}
-		Entity *--> "0..*" Parameter
-		FunctionBase --|> Entity
-		ComponentBase --|> Entity
-	}
-
 	package shadow{ 
 		package component {
-			class ShadowComponent
+			class Component
 		}
+		
 		package function {
-			class ShadowFunction
+			class Function
 		}
+		abstract class Parameter {
+			name
+			value
+		}		
+		Parameter --> "0..*" Parameter
 	}
 
-	ShadowFunction --|> FunctionBase
-	ShadowComponent --|> ComponentBase
-	
 	package process.service.domain {
 	
 		package function {
-			class Function <<Aggregate Root>>
-			Function --|> FunctionBase
-			Function --> "1" ShadowFunction
+			class ProcessFunction <<Aggregate Root>>
+		
+			ProcessFunction --|> Function
+			ProcessFunction *--> "0..*" Parameter	
+			
 		}
 		
 		package component {
-			class Component <<Aggregate Root>>
-			Component --|> ComponentBase
-			Component --> "1" ShadowComponent
+			class ProcessComponent <<Aggregate Root>>
+		
+			ProcessComponent --|> Component
+			ProcessComponent *--> "0..*" Parameter	
+			
 		}
+		
 	}
 ```
 
-An `fscl.process.service.domain.function.Function` may have any number of *Parameters.* These are intended to be referenced in other entities of this view or even other views. 
+A *ProcessFunction, ProcessComponent*, ... may have any number of *Parameters*. These are intended to be referenced in other entities of this view or even other view. 
 
 >[!info] [[Example]]
-> A "Pump Feedwater" *Function* object has a suction header, a discharge header and flow rate as inputs. From this, rated power and rated RPM can be determined, but this depends on load curves  of a concrete pum component, so that calculation is deferred to a later workflow specifying the *Component*
-> 
+> A "Pump Feedwater" *ProcessFunction* object has a suction header, a discharge header and flow rate as inputs. From this, rated power and rated RPM can be determined, but this depends on load curves  of a concrete pumd component, so that calculation is deferred to the *ProcessComponent* workflow
 
-
-A *Parameter* may depend on any number of other parameters. This is expressed by the association to itself.  A `Function` or any `Entity` in fact therefore may have any number of such dependencies. A dependency does not necessarily compute any new values from the `Parameter` but at least keeps track on which `Parameter` depends on which other, so an implementation can indicate a changed dependency to the user.
+A *Parameter* may depend on any number of other parameters. This is expressed by the association to *DependencyList*.  A *ProcessFunction* therefore may have any number of *DependencyLists*. A *DependencyList* does not actually compute any new values from the *Parameter* but only keeps track on which *Parameter* depends on which other.   

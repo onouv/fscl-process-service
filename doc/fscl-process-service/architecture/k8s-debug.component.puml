@@ -17,12 +17,6 @@ node "devhost" {
     }
 
     [curl] --> 8080: NodePort
-    [IntelliJ] -> 5005: port-forward
+    [IntelliJ] --> 5005: port-forward
 }
-
-
-
-
-
-
 @enduml
