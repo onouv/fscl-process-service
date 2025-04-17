@@ -45,4 +45,6 @@ A *ProcessFunction, ProcessComponent*, ... may have any number of *Parameters*. 
 >[!info] [[Example]]
 > A "Pump Feedwater" *ProcessFunction* object has a suction header, a discharge header and flow rate as inputs. From this, rated power and rated RPM can be determined, but this depends on load curves  of a concrete pumd component, so that calculation is deferred to the *ProcessComponent* workflow
 
-A *Parameter* may depend on any number of other parameters. This is expressed by the association to *DependencyList*.  A *ProcessFunction* therefore may have any number of *DependencyLists*. A *DependencyList* does not actually compute any new values from the *Parameter* but only keeps track on which *Parameter* depends on which other.   
+A *Parameter* may depend on any number of other parameters. This is expressed by the association to a *DependencyList* (not shown in diagram).  A *ProcessFunction* therefore may have any number of *DependencyLists*. A *DependencyList* does not actually compute any new values from the *Parameter* but only keeps track on which *Parameter* depends on which other.   
+
+[Elaborated Example](Example.md)
