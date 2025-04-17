@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: process-db-props
+  namespace: fscl
+data:
+  db-url: "jdbc:postgresql://process-db:5432/process-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: process-db
+  namespace: fscl
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    service: process-db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: process-db
+  namespace: fscl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: process-db
+  template:
+    metadata:
+      labels:
+        service: process-db
+    spec:
+      containers:
+        - name: postgres-process-db
+          image: postgres:15.1
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: process
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: process-db-credentials
+                  key: db-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: process-db-credentials
+                  key: db-password
+            - name: POSTGRES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: process-db-props
+                  key: db-url
