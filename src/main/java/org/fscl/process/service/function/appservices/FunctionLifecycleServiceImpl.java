@@ -18,7 +18,7 @@ import org.fscl.process.service.function.ports.upstream.web.FunctionLifeCycleSer
 public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
     @Inject
-    Event<FsclDomainEvent> event;
+    Event<FsclDomainEvent> domainEvent;
 
     @Inject
     CreationService domainService;
@@ -30,8 +30,8 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
         FunctionCreationResult result = domainService.create(id, name, description);
 
         for(FsclDomainEvent evt: result.events()) {
-            Log.info("Would fire event: " + event.toString());
-            //this.event.fire(evt);
+            Log.info("Would fire event: " + evt.toString());
+            this.domainEvent.fire(evt);
         }
         return new EntityRecord(result.function().getEntityId(), result.state());
     }
