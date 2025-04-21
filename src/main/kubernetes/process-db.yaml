@@ -44,12 +44,12 @@ spec:
               value: process
             - name: POSTGRES_USER
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: process-db-credentials
                   key: db-username
             - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: process-db-credentials
                   key: db-password
             - name: POSTGRES_URL
@@ -57,3 +57,28 @@ spec:
                 configMapKeyRef:
                   name: process-db-props
                   key: db-url
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: connector-configuration-role
+  namespace: fscl
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: ["process-db-credentials"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: connector-configuration-role-binding
+  namespace: fscl
+subjects:
+- kind: ServiceAccount
+  name: debezium-connect-cluster-connect
+  namespace: fscl
+roleRef:
+  kind: Role
+  name: connector-configuration-role
+  apiGroup: rbac.authorization.k8s.io

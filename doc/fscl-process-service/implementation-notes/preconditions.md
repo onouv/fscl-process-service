@@ -114,24 +114,19 @@ kubectl wait kafka/kafka-cluster --for=condition=Ready --timeout=180s -n fscl
 
 
 ### Postgres Database 'process-db'
-#### User Credentials for DB.   
-Set up a secret, a role and rolebinding for the user credentials in kubernetes.
 
-This may be achieved by running this [helper script](https://github.com/onouv/dev-bin/blob/main/db-init):
+The following steps may be assumed by this [helper script](../../../utils/db-init):
 
-```
-$: db-init
-FSCL: initializing postgres data base credentials
-namespace: fscl
-application: process
-user: fscl
-password: 
-secret/process-db-credentials created
-```
+1) retrieve credentials, set up a secret 
+2) setup a role and rolebinding for the user credentials in kubernetes.
+3) deploy a postgres database 
 
-#### Set up a postgres deployment:  
-```
-$: kubectl create -f src/main/kubernetes/process-db.yaml
-```
+Steps 2) and 3) are implemented in the `src/main/kubernetes/process-db.yaml`manifest. They can be reversed by running  a `kubectl delete -f ...` command on this file.
 
-### 
+### Debezium Connector
+
+#### Deploy Kafka Connect Cluster
+
+#### Deploy Debezium Connector
+
+
