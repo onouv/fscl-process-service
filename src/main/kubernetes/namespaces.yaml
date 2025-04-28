@@ -6,10 +6,5 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: debezium-fscl
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: fscl
 

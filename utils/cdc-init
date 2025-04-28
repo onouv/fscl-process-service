@@ -1,0 +1,3 @@
+#!/bin/bash
+echo FSCL: setting up debezium postgres-to-kafla outbox connections...
+kubectl apply -f ../src/main/kubernetes/debezium.yaml

@@ -7,6 +7,8 @@ target/
 data/
 
 settings.xml
+db-dev.env
+
 
 ### STS ###
 .apt_generated

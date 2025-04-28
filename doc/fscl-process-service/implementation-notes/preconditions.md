@@ -118,15 +118,21 @@ kubectl wait kafka/kafka-cluster --for=condition=Ready --timeout=180s -n fscl
 The following steps may be assumed by this [helper script](../../../utils/db-init):
 
 1) retrieve credentials, set up a secret 
-2) setup a role and rolebinding for the user credentials in kubernetes.
-3) deploy a postgres database 
+2) deploy a postgres database 
 
-Steps 2) and 3) are implemented in the `src/main/kubernetes/process-db.yaml`manifest. They can be reversed by running  a `kubectl delete -f ...` command on this file.
+Steps 2) is implemented in the `src/main/kubernetes/process-db.yaml`manifest. They can be reversed by running  a `kubectl delete -f ...` command on this file.
 
 ### Debezium Connector
 
-#### Deploy Kafka Connect Cluster
+From project home folder, run  
+`$: utils/cdc-init`.  This applies the `src/main/kubernetes/debezium.yaml` manifest, so the actions can be reversed by:  
+`$: kubectl delete -f src/main/kubernetes/debezium.yaml`.
 
-#### Deploy Debezium Connector
 
 
+Notes:   
+docker pull quay.io/debezium/postgres:15-alpine
+https://hub.docker.com/r/debezium/postgres
+https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.tar.gz
+https://strimzi.io/docs/operators/0.34.0/full/configuring#proc-kafka-connect-config-str  
+image goes to `hub.docker.com/repository/docker/rabaul/fscl-debezium-connect:latest`

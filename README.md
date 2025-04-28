@@ -10,36 +10,73 @@ as events published on a kafka backend broker. It also subscribes to events to l
 
 ## START UP
 
-### 1 Initialize Data Base 
+### Start minikube 
+
+```
+$: minikube start --memory=4096 --driver=virtualbox --namespace=fscl
+```
+
+### Setup k8s Namespaces
+```
+$: kubectl apply -f src/main/kubernetes/namespaces.yaml
+```
+
+### Initialize Data Base 
 The database is expected to run in a kubernetes pod as well. This step provides two ConfigMaps in the k8s cluster with properties and credentials for it. 
 
 #### Init Props and Credentials in k8s
 
-1) Create a kubernetes ConfigMap with user credentials by running this [helper script](https://github.com/onouv/dev-bin/blob/main/db-init.sh)
+This [helper script](utils/db-init)
+
+- creates a kubernetes ConfigMap for the database url  
+- a Secret with user credentials by running this 
+- spins up the k8s deployment
+
+
    ```
    $: db-init
-   initializing postgres data base
-   namespace: fscl
-   application: process
-   user: process-service
+   FSCL: initializing postgres data base credentials...
+   user: fscl
    password: 
-   configmap/process-db-credentials created
+   secret/process-db-credentials created
+   FSCL: setting up database, role and rolebindings
+   configmap/process-db-props created
+   service/process-db created
+   deployment.apps/process-db created
    ```
 
-2) Spin up the k8s items
-   ```
-   $: kubectl apply -f src/main/kubernetes/process-db.yaml
-   ```
+### Setup the Kafka Cluster
+#### Strimzi Operator
 
-### 2 Build and Deploy the App
-Build the app and deploy it to your k8s cluster.
+This constitutes the canonical way of installing / managing kafka in k8s. 
+```
+$: kubectl apply -f src/main/kubernetes/strimzi-operator.yaml
+kafka.kafka.strimzi.io/kafka-cluster created
+kafkatopic.kafka.strimzi.io/process-functions created
+```
+
+
+#### Kafka Cluster
+This sets up a single-node kafka cluster in the `fscl` namespace.
+
+```
+$: kubectl apply -f src/main/kubernetes/kafka-cluster.yaml
+```
+
+### Setup Debezium
+
+This sets up a debezium connect cluster, a Kafka connector to the postgres database, a role and a role binding, all in the `fscl` namespace.
+
+```
+$: kubectl apply -f src/main/kubernetes/debezium.yaml
+```
+
+### Build and Deploy the App
+#### Build the app and deploy it to your k8s cluster.
 ```
 $: quarkus build; quarkus deploy
 ```
 This will spin up a pod for the application as well as a NodePort service for external access.   
-
-
-
 
 #### Inspect the k8s setup
 
@@ -62,7 +99,7 @@ process-db-props         1      1h
 
 ```
 
-### 3 Test the deployed Enpoint 
+### Test the deployed Enpoint 
 #### Retrieve the endpoint
 > Assuming the deployment happens on a local minikube cluster. For different platforms, the services url must be retrieved according to the specific technology (kubectl normally cannot provide that information, as mapping of ports is managed by the container system) 
 
