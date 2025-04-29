@@ -45,7 +45,7 @@ This [helper script](utils/db-init)
    deployment.apps/process-db created
    ```
 
-### Setup the Kafka Cluster
+### Setup Kafka and Debezium
 #### Strimzi Operator
 
 This constitutes the canonical way of installing / managing kafka in k8s. 
@@ -65,12 +65,34 @@ $: kubectl apply -f src/main/kubernetes/kafka-cluster.yaml -n kafka
 
 TODO: only works for `-n kafka` namespace. Need to figure out where to apply `watchedNamespace: fscl` or `watchAnyNamespace` to the strimzi cluster operator config
 
-### Setup Debezium
+### Debezium
+
+
+
+Following the [Debezium Kubernetes guide](https://debezium.io/documentation/reference/stable/operations/kubernetes.html)
+
+#### Fetch the connector plugin 
+```
+$: curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.
+```
+
+#### Build and push Docker Image 
+
+Notice, `rabaul/fscl-kafka-connect:latest` is already existing, so these steps are shown for info only.  
+
+```
+$: cd src/main/kubernetes/debezium
+$: curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.tar.gz | tar xvz
+$: docker build . -t rabaul/fscl-kafka-connect
+$: docker push rabaul/fscl-kafka-connect
+```
+
+#### Set up the Workloads
 
 This sets up a debezium connect cluster, a Kafka connector to the postgres database, a role and a role binding, all in the `fscl` namespace.
 
 ```
-$: kubectl apply -f src/main/kubernetes/debezium.yaml
+$:kubectl apply -f ../src/main/kubernetes/debezium/debezium.yaml
 ```
 
 ### Build and Deploy the App

@@ -5,7 +5,7 @@ metadata:
   name: process-db-props
   namespace: fscl
 data:
-  db-url: "jdbc:postgresql://process-db:5432/process-service"
+  db_url: "jdbc:postgresql://process-db:5432/process-service"
 ---
 apiVersion: v1
 kind: Service

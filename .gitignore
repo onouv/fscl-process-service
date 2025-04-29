@@ -7,7 +7,7 @@ target/
 data/
 
 settings.xml
-db-dev.env
+**/kubernetes/debezium/
 
 
 ### STS ###

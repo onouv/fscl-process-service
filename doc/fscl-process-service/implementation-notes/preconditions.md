@@ -124,15 +124,30 @@ Steps 2) is implemented in the `src/main/kubernetes/process-db.yaml`manifest. Th
 
 ### Debezium Connector
 
-From project home folder, run  
-`$: utils/cdc-init`.  This applies the `src/main/kubernetes/debezium.yaml` manifest, so the actions can be reversed by:  
-`$: kubectl delete -f src/main/kubernetes/debezium.yaml`.
-
-
-
-Notes:   
+#### Notes:   
 docker pull quay.io/debezium/postgres:15-alpine
 https://hub.docker.com/r/debezium/postgres
 https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.tar.gz
 https://strimzi.io/docs/operators/0.34.0/full/configuring#proc-kafka-connect-config-str  
 image goes to `hub.docker.com/repository/docker/rabaul/fscl-debezium-connect:latest`
+
+> strimzi cluster operator version 0.45.0  
+> kafka version: 3.9.0
+
+
+Following the [Debezium Kubernetes guide](https://debezium.io/documentation/reference/stable/operations/kubernetes.html)
+
+#### Fetch the connector plugin 
+curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.
+
+
+#### Build and push Docker Image 
+
+> rabaul/fscl-kafka-connect:latest is already existing, so these steps are shown for info only
+
+```
+$: cd src/main/kubernetes/debezium
+$: curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.tar.gz | tar xvz
+$: docker build . -t rabaul/fscl-kafka-connect
+$: docker push rabaul/fscl-kafka-connect
+```

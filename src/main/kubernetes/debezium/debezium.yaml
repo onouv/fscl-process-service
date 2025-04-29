@@ -7,8 +7,9 @@ metadata:
     strimzi.io/use-connector-resources: "true"
 spec:
   version: 3.1.0
+  image: hub.docker.com/repository/docker/rabaul/fscl-kafka-connect:latest
   replicas: 1
-  bootstrapServers: debezium-cluster-kafka-bootstrap:9092
+  bootstrapServers: fscl-cluster-kafka-bootstrap.kafka:9092
   config:
     config.providers: secrets
     config.providers.secrets.class: io.strimzi.kafka.KubernetesSecretConfigProvider
@@ -23,9 +24,10 @@ spec:
   build:
     output:
       type: docker
-      image: hub.docker.com/repository/docker/rabaul/fscl-debezium-connect:latest
+      # find ip by running "echo$(kubectl -n kube-system get svc registry -o jsonpath='{.spec.clusterIP})"
+      image: 10.96.175.134/fscl-debezium-connect:latest
     plugins:
-      - name: debezium-connect-postgres
+      - name: debezium-postgres-connector
         artifacts:
           - type: tgz
             url: https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.tar.gz
@@ -42,10 +44,10 @@ spec:
   tasksMax: 1
   config:
     tasks.max: 1
-    database.hostname: postgres-process-db
+    database.hostname: process-db
     database.port: 5432
-    database.user: ${secrets:process-db-credentials/FSCL:db-username}
-    database.password: ${secrets:process-db-credentials/FSCL:db-password}
+    database.user: ${secrets:process-db-credentials/FSCL:db_username}
+    database.password: ${secrets:process-db-credentials/FSCL:db_password}
     database.dbname: process
     topic.prefix: process
     transforms: outbox
@@ -72,7 +74,6 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: debezium-connect-cluster-connect
-  namespace: fscl
 roleRef:
   kind: Role
   name: connector-configuration-role
