@@ -60,8 +60,10 @@ kafkatopic.kafka.strimzi.io/process-functions created
 This sets up a single-node kafka cluster in the `fscl` namespace.
 
 ```
-$: kubectl apply -f src/main/kubernetes/kafka-cluster.yaml
+$: kubectl apply -f src/main/kubernetes/kafka-cluster.yaml -n kafka
 ```
+
+TODO: only works for `-n kafka` namespace. Need to figure out where to apply `watchedNamespace: fscl` or `watchAnyNamespace` to the strimzi cluster operator config
 
 ### Setup Debezium
 

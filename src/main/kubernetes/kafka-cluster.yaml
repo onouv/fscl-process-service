@@ -2,7 +2,6 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaNodePool
 metadata:
   name: dual-role
-  namespace: kafka
   labels:
     strimzi.io/cluster: fscl-cluster
 spec:
@@ -19,11 +18,11 @@ spec:
         deleteClaim: false
         kraftMetadata: shared
 ---
+
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
   name: fscl-cluster
-  namespace: kafka
   annotations:
     strimzi.io/node-pools: enabled
     strimzi.io/kraft: enabled
