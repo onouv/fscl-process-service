@@ -5,7 +5,7 @@ metadata:
   name: process-db-props
   namespace: fscl
 data:
-  db-url: "jdbc:postgresql://process-db:5432/process-service"
+  db_url: "jdbc:postgresql://process-db:5432/process-service"
 ---
 apiVersion: v1
 kind: Service
@@ -44,16 +44,16 @@ spec:
               value: process
             - name: POSTGRES_USER
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: process-db-credentials
-                  key: db-username
+                  key: db_username
             - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: process-db-credentials
-                  key: db-password
+                  key: db_password
             - name: POSTGRES_URL
               valueFrom:
                 configMapKeyRef:
                   name: process-db-props
-                  key: db-url
+                  key: db_url

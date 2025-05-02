@@ -2,8 +2,9 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
   name: process-functions
+  namespace: fscl
   labels:
-    strimzi.io/cluster: fscl-cluster
+    strimzi.io/cluster: kafka-cluster
 spec:
   partitions: 1
   replicas: 1

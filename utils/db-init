@@ -1,0 +1,24 @@
+#!/bin/bash
+######################################################
+# 1) retrieves user credentials for postgres database 
+# 2) from this creates a kubernetes secret 
+#
+#     process-db-credentials
+#
+# in given namespace for holding the postgresql
+# credentials
+# 3) applies a manifest to set up postgres, role and 
+# rolebinding 
+######################################################
+echo FSCL: initializing postgres data base credentials...
+read -p "user: " -r user
+read -p "password: " -s -r password
+echo
+dbName=${application}-db
+usr=$(base64 <<< "$user")
+pw=$(base64 <<< "$password")
+kubectl create -n "fscl" secret generic "process-db-credentials" \
+--from-literal=db_username="$usr" \
+--from-literal=db_password="$pw"
+echo FSCL: setting up database, role and rolebindings
+kubectl apply -f ./src/main/kubernetes/process-db.yaml

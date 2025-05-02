@@ -6,6 +6,10 @@ target/
 
 data/
 
+settings.xml
+**/kubernetes/debezium/
+
+
 ### STS ###
 .apt_generated
 .classpath

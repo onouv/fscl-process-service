@@ -1,4 +1,0 @@
-POSTGRES_PASSWORD=example
-POSTGRES_USER=fsclusr
-POSTGRES_HOST=postgres
-POSTGRES_DB=processdb

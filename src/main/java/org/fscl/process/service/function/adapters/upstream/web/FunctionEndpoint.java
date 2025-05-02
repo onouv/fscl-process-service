@@ -10,15 +10,9 @@ import org.fscl.core.adapters.upstream.web.lifecycle.*;
 import org.fscl.core.appservices.EntityRecord;
 import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
 import org.fscl.process.service.function.adapters.downstream.persistence.FunctionRepository;
-import org.fscl.process.service.function.ports.upstream.web.FunctionCreationResult;
 import org.fscl.process.service.function.ports.upstream.web.FunctionLifeCycleService;
-import org.fscl.process.service.function.domain.Function;
 import org.jboss.resteasy.reactive.RestResponse;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Path("/fscl/v2/process/function")
@@ -41,9 +35,11 @@ public class FunctionEndpoint {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public RestResponse<EntityExistingResponseDto> createFunction(CreateEntityRequestDto dto) throws Exception {
+    public RestResponse<EntityExistingResponseDto>
+    createFunction(CreateEntityRequestDto dto) throws Exception {
 
-        EntityRecord result = lifeCycleService.createFunction(dto.getId(), dto.getName(), dto.getDescription());
+        EntityRecord result = lifeCycleService
+            .createFunction(dto.getId(), dto.getName(), dto.getDescription());
         FsclEntityState state = result.state();
         switch(state) {
             case CreatedInView:
@@ -51,7 +47,9 @@ public class FunctionEndpoint {
                         result.id(),
                         state));
             case PreexistingInView:
-                return RestResponse.status(RestResponse.Status.CONFLICT, new EntityExistingResponseDto(
+                return RestResponse.status(
+                    RestResponse.Status.CONFLICT,
+                    new EntityExistingResponseDto(
                         result.id(),
                         state));
             default:
@@ -64,7 +62,8 @@ public class FunctionEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/by-project/{projectId}")
-    public RestResponse<List<FunctionDto>> getAllFunctions(@PathParam("projectId") String projectId) {
+    public RestResponse<List<FunctionDto>>
+    getAllFunctions(@PathParam("projectId") String projectId) {
         List<FunctionDto> functions = repository.findAllForProject(projectId)
                 .stream()
                 .map(f -> FunctionDto.of(f))
