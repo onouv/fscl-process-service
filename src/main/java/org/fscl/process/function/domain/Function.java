@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import org.fscl.core.domain.entity.FsclEntity;
+import org.fscl.core.domain.function.Function;
 import org.fscl.core.domain.entity.FsclEntityEvent;
 import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
 import org.fscl.process.service.function.domain.events.FunctionCreatedEvent;
@@ -16,7 +16,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @Entity
-public class Function extends FsclEntity<Function> {
+public class Function extends core.domain.function.Function {
 
     protected Function(String code, String project, Function parent, String name, String description) {
         super(new FsclEntityId(code, project), parent, name, description);
