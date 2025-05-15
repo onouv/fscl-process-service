@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import org.fscl.core.domain.entity.FsclEntity;
-import org.fscl.core.domain.entity.id.FsclEntityId;
-import org.fscl.core.domain.events.FsclDomainEvent;
+import org.fscl.core.domain.entity.FsclEntityEvent;
 import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
 import org.fscl.process.service.function.domain.events.FunctionCreatedEvent;
 import org.fscl.process.service.function.ports.upstream.web.FunctionCreationResult;
@@ -24,7 +23,7 @@ public class Function extends FsclEntity<Function> {
     }
 
     public FunctionCreationResult created() {
-        List<FsclDomainEvent> events = new ArrayList<>();
+        List<FsclEntityEvent> events = new ArrayList<>();
         events.add(FunctionCreatedEvent.of(this));
         return new FunctionCreationResult(this, FsclEntityState.CreatedInView, events);
     }
