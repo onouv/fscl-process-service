@@ -2,7 +2,7 @@
 
 NOTE : THIS IS WORK IN PROGRESS !
 
-A microservice backend to [model a process technology view](doc/fscl-process-service/process-view/process-domain.md) of a technical domain. The service allows users to create a general formal representation of the domain which is distributed and maintained consistently. The model is intended to be integrated with other views such as an automation or safety/reliability management view. [More Details on the Concept...](https://github.com/onouv/fscl/blob/main/doc/fscl/Views/Views.md)
+A microservice backend to [model a process technology view](doc/process-view/process-domain.md) of a technical domain. The service allows users to create a general formal representation of the domain which is distributed and maintained consistently. The model is intended to be integrated with other views such as an automation or safety/reliability management view. [More Details on the Concept...](https://github.com/onouv/fscl/blob/main/doc/fscl/Views/Views.md)
 
 This is the backend service providing a REST API to a SPA frontend. It runs as a pod in kubernetes and is implemented 
 in Quarkus. It maintains a data model and communicates updates 
@@ -66,8 +66,6 @@ $: kubectl apply -f src/main/kubernetes/kafka-cluster.yaml -n kafka
 TODO: only works for `-n kafka` namespace. Need to figure out where to apply `watchedNamespace: fscl` or `watchAnyNamespace` to the strimzi cluster operator config
 
 ### Debezium
-
-
 
 Following the [Debezium Kubernetes guide](https://debezium.io/documentation/reference/stable/operations/kubernetes.html)
 
