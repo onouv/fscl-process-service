@@ -74,7 +74,7 @@ Following the [Debezium Kubernetes guide](https://debezium.io/documentation/refe
 $: curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.
 ```
 
-#### Build and push Docker Image 
+#### Build and reposition Docker Image 
 
 Notice, `rabaul/fscl-kafka-connect:latest` is already existing, so these steps are shown for info only.  
 

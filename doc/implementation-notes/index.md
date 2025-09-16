@@ -8,6 +8,8 @@ This is not the case here, because the four core concepts (F, S, C , L) are rank
 
 Elaborating the [Example](../process-view/example.md) might shed new light on this in the future.
 
-# [Get Started](get-started.md)
-
 # [Debug Setup](debug-setup.md)
+
+# [Startup and Teardown Kafka and Strimzi](strimzi-kafka.md)
+
+# [Connect to Postgres from outside k8s](k8s-psql.md)
