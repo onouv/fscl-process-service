@@ -22,3 +22,10 @@ then enter the db password configured in the ConfigMap and you are in. Note the 
 See this [IntelliJ Article](https://blog.jetbrains.com/idea/2021/05/easily-debug-java-microservices-running-on-kubernetes-with-intellij-idea/)
 
 Note the kubernetes cluster can be running remotely (intended case) as well as in a local minikube.
+
+## Ambassador Telepresence
+
+The local kubernetes setup in minikube can be intercepted by [telepresence](https://www.getambassador.io/docs/telepresence/latest/quick-start). This allows to connect to cluster-internal ip addresses for various purposes: 
+
+`$: telepresence connect`
+

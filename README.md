@@ -2,9 +2,11 @@
 
 NOTE : THIS IS WORK IN PROGRESS !
 
-A microservice backend to [model a process technology view](doc/fscl-process-service/process-view/process-domain.md) of a technical domain. The service allows users to create a general formal representation of the domain which is distributed and maintained consistently. The model is intended to be integrated with other views such as an automation or safety/reliability management view. [More Details on the Concept...](https://github.com/onouv/fscl/blob/main/doc/fscl/Views/Views.md)
+A microservice backend to model a [process technology view](https://github.com/onouv/fscl/blob/main/doc/views/process-view/index.md) of a technical domain. The service allows users to create a general formal representation of the domain which is distributed and maintained consistently. The model is intended to be integrated with other views such as an automation or safety/reliability management view. 
 
-This is the backend service providing a REST API to a SPA frontend. It runs as a pod in kubernetes and is implemented 
+[See more details on the overall idea...](https://github.com/onouv/fscl/blob/main/doc/README.md)
+
+This is the backend service providing a REST API to a SPA web frontend. It runs as a pod in kubernetes deployment and is implemented 
 in Quarkus. It maintains a data model and communicates updates 
 as events published on a kafka backend broker. It also subscribes to events to learn about remote model updates.
 
@@ -67,8 +69,6 @@ TODO: only works for `-n kafka` namespace. Need to figure out where to apply `wa
 
 ### Debezium
 
-
-
 Following the [Debezium Kubernetes guide](https://debezium.io/documentation/reference/stable/operations/kubernetes.html)
 
 #### Fetch the connector plugin 
@@ -76,7 +76,7 @@ Following the [Debezium Kubernetes guide](https://debezium.io/documentation/refe
 $: curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.
 ```
 
-#### Build and push Docker Image 
+#### Build and reposition Docker Image 
 
 Notice, `rabaul/fscl-kafka-connect:latest` is already existing, so these steps are shown for info only.  
 
@@ -147,4 +147,4 @@ $: minikube service list -n fscl
 $: curl http://192.168.59.117:30307/fscl/v2/process/function/lifesign
 fscl process service function endpoint is alive.
 ```
-   
+# [Implementation Notes](doc/implementation-notes/index.md)   
