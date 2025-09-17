@@ -3,7 +3,7 @@ https://dev.to/devlix-blog/remote-debugging-of-java-apps-in-kubernetes-2mo
 https://quarkus.io/guides/deploying-to-kubernetes#remote-debugging
 
 
-[Diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl-process-service/doc/implementation-notes/k8s-debug.component.puml)
+![Diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl-process-service/doc/implementation-notes/k8s-debug.component.puml)
 
 [Diagram source](k8s-debug.component.puml)
 
