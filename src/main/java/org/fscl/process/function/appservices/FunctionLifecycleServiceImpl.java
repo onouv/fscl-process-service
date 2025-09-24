@@ -1,4 +1,4 @@
-package org.fscl.process.service.function.appservices;
+package org.fscl.process.function.appservices;
 
 import io.quarkus.logging.Log;
 
@@ -10,16 +10,15 @@ import jakarta.transaction.Transactional;
 import org.fscl.core.appservices.EntityRecord;
 import org.fscl.core.domain.entity.id.FsclEntityId;
 import org.fscl.core.domain.events.FsclDomainEvent;
-import org.fscl.process.service.function.domain.CreationService;
-import org.fscl.process.service.function.domain.events.FunctionCreatedEvent;
-import org.fscl.process.service.function.ports.upstream.web.FunctionCreationResult;
-import org.fscl.process.service.function.ports.upstream.web.FunctionLifeCycleService;
+import org.fscl.process.function.domain.CreationService;
+import org.fscl.process.function.ports.driven.web.FunctionCreationResult;
+import org.fscl.process.function.ports.driven.web.FunctionLifeCycleService;
 
 @ApplicationScoped
 public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
     @Inject
-    Event<FunctionCreatedEvent> domainEvent;
+    Event<FsclDomainEvent> domainEvent;
 
     @Inject
     CreationService domainService;
@@ -30,7 +29,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
         FunctionCreationResult result = domainService.create(id, name, description);
 
-        for(FunctionCreatedEvent evt: result.events()) {
+        for(FsclDomainEvent evt: result.events()) {
             Log.info("Would fire event: " + evt.toString());
             this.domainEvent.fire(evt);
         }

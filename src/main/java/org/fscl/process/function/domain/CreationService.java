@@ -9,8 +9,8 @@ import java.util.Optional;
 
 import org.fscl.core.domain.entity.id.FsclEntityId;
 import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
-import org.fscl.process.function.adapters.downstream.persistence.FunctionRepository;
-import org.fscl.process.function.ports.upstream.web.FunctionCreationResult;
+import org.fscl.process.function.adapters.driving.persistence.FunctionRepository;
+import org.fscl.process.function.ports.driven.web.FunctionCreationResult;
 
 @ApplicationScoped
 public class CreationService {

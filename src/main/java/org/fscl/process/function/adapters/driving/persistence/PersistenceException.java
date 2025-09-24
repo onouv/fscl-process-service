@@ -1,7 +1,6 @@
-package org.fscl.process.function.adapters.downstream.persistence;
+package org.fscl.process.function.adapters.driving.persistence;
 
 import org.fscl.core.domain.entity.id.FsclEntityId;
-import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
 
 public class PersistenceException extends RuntimeException {
 

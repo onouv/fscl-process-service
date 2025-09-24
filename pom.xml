@@ -4,7 +4,7 @@
 
 	<groupId>org.fscl.process.service</groupId>
 	<artifactId>process-service</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<name>fscl-process-service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -101,13 +101,9 @@
 
 		<!-- general utils -->
 		<dependency>
-			<groupId>io.debezium</groupId>
-			<artifactId>debezium-quarkus-outbox</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.32</version>
+			<version>1.18.42</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -135,7 +131,7 @@
 		<dependency>
 			<groupId>org.fscl</groupId>
 			<artifactId>fscl-core-lib</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
+			<version>0.2.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
