@@ -8,7 +8,7 @@ import org.fscl.core.domain.entity.id.FsclEntityId;
 import org.fscl.core.domain.events.FsclDomainEvent;
 import org.fscl.core.domain.function.FsclFunction;
 import org.fscl.core.domain.function.FunctionCreatedEvent;
-import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
+import org.fscl.core.ports.driven.web.lifecycle.FsclEntityState;
 import org.fscl.process.function.ports.driven.web.FunctionCreationResult;
 
 import java.util.ArrayList;

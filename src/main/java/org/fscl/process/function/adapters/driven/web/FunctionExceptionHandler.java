@@ -5,7 +5,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.fscl.core.ports.upstream.web.error.ErrorDto;
+import org.fscl.core.ports.driven.web.error.ErrorDto;
 
 @Provider
 public class FunctionExceptionHandler implements ExceptionMapper<Throwable> {
