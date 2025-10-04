@@ -1,6 +1,5 @@
 package org.fscl.process.function.domain;
 
-import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -16,7 +15,6 @@ import java.util.List;
 
 @SuperBuilder
 @NoArgsConstructor
-@Entity
 public class Function extends FsclFunction {
 
     protected Function(String code, String project, Function parent, String name, String description) {
