@@ -16,6 +16,10 @@ public class FunctionExceptionHandler implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable e) {
         Log.error(String.format("Error handling a Function: %s", e.getMessage()));
+        Log.error(String.format("... %s", e.getStackTrace()));
+        Log.error(String.format("... %s", e.getCause()));
+        
+        
         ErrorDto err = new ErrorDto();
         err.setErrorCode(errorCode);
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(err).build();

@@ -1,24 +1,29 @@
 #!/bin/bash
 ######################################################
-# 1) retrieves user credentials for postgres database 
-# 2) from this creates a kubernetes secret 
+# 1) retrieves user credentials for postgres database
+# 2) from this creates a kubernetes secret
 #
 #     process-db-credentials
 #
 # in given namespace for holding the postgresql
 # credentials
-# 3) applies a manifest to set up postgres, role and 
-# rolebinding 
+# 3) applies a manifest to set up postgres, role and
+# rolebinding for a database called 'process-db'
 ######################################################
 echo FSCL: initializing postgres data base credentials...
+#read -p "application: " -s -r application
 read -p "user: " -r user
 read -p "password: " -s -r password
 echo
-dbName=${application}-db
-usr=$(base64 <<< "$user")
-pw=$(base64 <<< "$password")
+#dbName=${application}-db
+usr=$(base64 <<<"$user")
+pw=$(base64 <<<"$password")
+echo FSCL: deleting secrets and configmap for process_db
+kubectl delete -n "fscl" secret process-db-credentials
+kubectl delete -n "fscl" configmap process-db-props
+echo creating new secret for process_db
 kubectl create -n "fscl" secret generic "process-db-credentials" \
---from-literal=db_username="$usr" \
---from-literal=db_password="$pw"
-echo FSCL: setting up database, role and rolebindings
+  --from-literal=db_username="$usr" \
+  --from-literal=db_password="$pw"
+echo FSCL: setting up database deployment
 kubectl apply -f ./src/main/kubernetes/process-db.yaml
