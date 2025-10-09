@@ -1,0 +1,52 @@
+#!/bin/bash
+removeSecret=0
+removeService=0
+removeDB=0
+removeKafka=0
+read -p "FSCL TEARDOWN: remove everything (y|N) ? " -r removeAll
+if [[ "$removeAll" = "y" ]]; then
+  removeSecret=1
+  removeService=1
+  removeDB=1
+  removeKafka=1
+else
+  read -p "FSCL TEARDOWN: remove secret (y|N) ? " -r removeSecret
+  if [[ "$removeSecret" = "y" ]]; then
+    removeSecret=1
+  fi
+  read -p "FSCL TEARDOWN: remove service (y|N) ? " -r removeService
+  if [[ "$removeService" = "y" ]]; then
+    removeService=1
+  fi
+  read -p "FSCL TEARDOWN: remove database (y|N) ?" -r removeDB
+  if [[ "$removeDB" = "y" ]]; then
+    removeDB=1
+  fi
+  read -p "FSCL TEARDOWN: remove kafka (y|N) ?" -r removeKafka
+  if [[ "$removeKafka" = "y" ]]; then
+    removeKafka=1
+  fi
+fi
+if [ $removeSecret ]; then
+  echo "FSCL TEARDOWN: removing secret..."
+  kubectl -n fscl delete secret process-db-credentials
+fi
+if [ $removeService ]; then
+  echo "FSCL TEARDOWN: removing service..."
+  kubectl delete -f ../target/kubernetes/kubernetes.yml
+fi
+if [ $removeDB ]; then
+  echo "FSCL TEARDOWN: removing database..."
+  kubectl delete -f ../src/main/kubernetes/process-db.yaml
+fi
+if [[ ($removeService -eq 1) && ($removeDB -eq 1) && ($removeSecret -eq 1) ]]; then
+  echo "FSCL TEARDOWN: removing namespace fscl..."
+  kubectl delete namespace fscl
+fi
+if [[ $removeKafka ]]; then
+  echo "FSCL TEARDOWN: removing kafka, strimzi and debezium..."
+  kubectl delete namespace kafka
+  #kubectl delete -f ../src/main/kubernetes/kafka-cluster.yaml
+  #kubectl delete -f ../src/main/kubernetes/debezium/debezium.yaml
+  #kubectl delete -f ../src/main/kubernetes/strimzi-operator.yaml
+fi

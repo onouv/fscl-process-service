@@ -1,0 +1,15 @@
+#!/bin/bash
+kubectl -n fscl apply -f ../src/main/kubernetes/namespaces.yaml
+echo "FSCL SETUP: setting up process database..."
+read -p "user: " -r user
+read -p "password: " -s -r password
+kubectl create -n "fscl" secret generic "process-db-credentials" \
+  --from-literal=db_username="$usr" \
+  --from-literal=db_password="$pw"
+kubectl apply -f ../src/main/kubernetes/process-db.yaml
+echo "FSCL SETUP: setting up strimzi, debezium and kafka..."
+kubectl -n fscl apply -f ../src/main/kubernetes/strimzi-operator.yaml
+kubectl -n fscl apply -f ../src/main/kubernetes/debezium/debezium.yaml
+kubectl -n fscl apply -f ../src/main/kubernetes/kafka-cluster.yaml
+echo "FSCL SETUP: setting up process service..."
+kubectl -n fscl apply -f ../target/kubernetes/kubernetes.yml
