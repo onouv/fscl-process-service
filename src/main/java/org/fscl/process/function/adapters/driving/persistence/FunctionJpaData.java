@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="functions")
+@Table(name="function")
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class FunctionJpaData extends EntityJpaData  {
+public class FunctionJpaData extends EntityJpaData  {
 }
 

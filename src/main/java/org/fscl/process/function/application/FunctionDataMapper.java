@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface FunctionDataMapper {
 
-	FunctionDataMapper INSTANCE = Mappers.getMapper(FunctionDataMapper.class);
+	public static FunctionDataMapper INSTANCE = Mappers.getMapper(FunctionDataMapper.class);
 	
 	public FunctionJpaData domain2Data(Function domain);
 	public Function data2Domain(FunctionJpaData data);

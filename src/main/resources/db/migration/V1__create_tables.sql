@@ -17,5 +17,6 @@ CREATE TABLE function (
     id BIGINT PRIMARY KEY,
     project VARCHAR(64),
     code VARCHAR(64),
+    name VARCHAR(128),
     description VARCHAR(512)
 );

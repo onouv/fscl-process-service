@@ -4,4 +4,3 @@ kubectl create namespace kafka
 kubectl apply -f ./src/main/kubernetes/strimzi-operator.yaml
 kubectl apply -f ./src/main/kubernetes/debezium/debezium.yaml
 kubectl apply -f ./src/main/kubernetes/kafka-cluster.yaml
-
