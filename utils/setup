@@ -1,15 +1,58 @@
 #!/bin/bash
-kubectl -n fscl apply -f ../src/main/kubernetes/namespaces.yaml
-echo "FSCL SETUP: setting up process database..."
-read -p "user: " -r user
-read -p "password: " -s -r password
-kubectl create -n "fscl" secret generic "process-db-credentials" \
-  --from-literal=db_username="$usr" \
-  --from-literal=db_password="$pw"
-kubectl apply -f ../src/main/kubernetes/process-db.yaml
-echo "FSCL SETUP: setting up strimzi, debezium and kafka..."
-kubectl -n fscl apply -f ../src/main/kubernetes/strimzi-operator.yaml
-kubectl -n fscl apply -f ../src/main/kubernetes/debezium/debezium.yaml
-kubectl -n fscl apply -f ../src/main/kubernetes/kafka-cluster.yaml
-echo "FSCL SETUP: setting up process service..."
-kubectl -n fscl apply -f ../target/kubernetes/kubernetes.yml
+setupSecret=0
+setupService=0
+setupDB=0
+setupKafka=0
+read -p "FSCL SETUP: setup everything (y|N) ? " -r setupAll
+if [[ "$setupAll" = "y" ]]; then
+  setupSecret=1
+  setupService=1
+  setupDB=1
+  setupKafka=1
+else
+  read -p "FSCL SETUP: setup secret (y|N) ? " -r setupSecret
+  if [[ "$setupSecret" = "y" ]]; then
+    setupSecret=1
+  fi
+  read -p "FSCL SETUP: setup service (y|N) ? " -r setupService
+  if [[ "$setupService" = "y" ]]; then
+    setupService=1
+  fi
+  read -p "FSCL SETUP: setup database (y|N) ?" -r setupDB
+  if [[ "$setupDB" = "y" ]]; then
+    setupDB=1
+  fi
+  read -p "FSCL SETUP: setup kafka (y|N) ?" -r setupKafka
+  if [[ "$setupKafka" = "y" ]]; then
+    setupKafka=1
+  fi
+fi
+if [[ ($setupService -eq 1) || ($setupDB -eq 1) || ($setupSecret -eq 1) ]]; then
+  echo "FSCL SETUP: setting up namespace fscl..."
+  kubectl create namespace fscl
+fi
+if [ $setupSecret ]; then
+  echo "FSCL SETUP: setting up secret..."
+  read -p "database user name: " -r user
+  read -p "database password: " -s -r password
+  usr=$(base64 <<<"$user")
+  pw=$(base64 <<<"$password")
+  kubectl create -n "fscl" secret generic "process-db-credentials" \
+    --from-literal=db_username="$usr" \
+    --from-literal=db_password="$pw"
+fi
+if [ $setupDB ]; then
+  echo "FSCL SETUP: setting up database..."
+  kubectl apply -f ./src/main/kubernetes/process-db.yaml
+fi
+if [ $setupService ]; then
+  echo "FSCL SETUP: setting up service..."
+  kubectl apply -f ./target/kubernetes/kubernetes.yml
+fi
+if [[ $setupKafka ]]; then
+  echo "FSCL SETUP: setting up kafka, strimzi and debezium..."
+  kubectl create namespace kafka
+  kubectl apply -f ./src/main/kubernetes/strimzi-operator.yaml
+  kubectl apply -f ./src/main/kubernetes/debezium/debezium.yaml
+  kubectl apply -f ./src/main/kubernetes/kafka-cluster.yaml
+fi

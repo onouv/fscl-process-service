@@ -39,7 +39,8 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
         for(FsclDomainEvent evt: result.events()) {
             Log.info("Firing event: " + evt.toString());
-            this.domainEvent.fire(evt);
+            // TODO: messaging event classes should be in adapters layer, provide proper mappers as well
+            //this.domainEvent.fire(evt);
         }
         return new EntityRecord(result.function().getEntityId(), result.state());
     }

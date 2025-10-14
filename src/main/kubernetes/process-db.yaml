@@ -35,14 +35,16 @@ spec:
             - name: POSTGRES_DB
               value: process
             - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: process-db-credentials
-                  key: db_username
+              value: process
+#              valueFrom:
+#                secretKeyRef:
+#                  name: process-db-credentials
+#                  key: db_username
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: process-db-credentials
-                  key: db_password
+              value: fscl
+#              valueFrom:
+#                secretKeyRef:
+#                  name: process-db-credentials
+#                  key: db_password
             - name: POSTGRES_URL
               value: jdbc:postgresql://process-db:5432/process

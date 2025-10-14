@@ -33,11 +33,11 @@ if [ $removeSecret ]; then
 fi
 if [ $removeService ]; then
   echo "FSCL TEARDOWN: removing service..."
-  kubectl delete -f ../target/kubernetes/kubernetes.yml
+  kubectl delete -f ./target/kubernetes/kubernetes.yml
 fi
 if [ $removeDB ]; then
   echo "FSCL TEARDOWN: removing database..."
-  kubectl delete -f ../src/main/kubernetes/process-db.yaml
+  kubectl delete -f ./src/main/kubernetes/process-db.yaml
 fi
 if [[ ($removeService -eq 1) && ($removeDB -eq 1) && ($removeSecret -eq 1) ]]; then
   echo "FSCL TEARDOWN: removing namespace fscl..."
@@ -46,7 +46,7 @@ fi
 if [[ $removeKafka ]]; then
   echo "FSCL TEARDOWN: removing kafka, strimzi and debezium..."
   kubectl delete namespace kafka
-  #kubectl delete -f ../src/main/kubernetes/kafka-cluster.yaml
-  #kubectl delete -f ../src/main/kubernetes/debezium/debezium.yaml
-  #kubectl delete -f ../src/main/kubernetes/strimzi-operator.yaml
+  #kubectl delete -f ./src/main/kubernetes/kafka-cluster.yaml
+  #kubectl delete -f ./src/main/kubernetes/debezium/debezium.yaml
+  #kubectl delete -f ./src/main/kubernetes/strimzi-operator.yaml
 fi

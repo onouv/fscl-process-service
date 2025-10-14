@@ -10,6 +10,7 @@
 # 3) applies a manifest to set up postgres, role and
 # rolebinding for a database called 'process-db'
 ######################################################
+kubectl create namespace fscl
 echo FSCL: initializing postgres data base credentials...
 #read -p "application: " -s -r application
 read -p "user: " -r user
