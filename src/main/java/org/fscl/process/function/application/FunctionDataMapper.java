@@ -2,14 +2,17 @@ package org.fscl.process.function.application;
 
 import org.fscl.process.function.adapters.driving.persistence.FunctionJpaData;
 import org.fscl.process.function.domain.Function;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface FunctionDataMapper {
 
-	public static FunctionDataMapper INSTANCE = Mappers.getMapper(FunctionDataMapper.class);
+	FunctionDataMapper INSTANCE = Mappers.getMapper(FunctionDataMapper.class);
 	
-	public FunctionJpaData domain2Data(Function domain);
-	public Function data2Domain(FunctionJpaData data);
+	FunctionJpaData domain2Data(Function domain);
+	
+	@BeanMapping( resultType = Function.class)
+	Function data2Domain(FunctionJpaData data);
 }

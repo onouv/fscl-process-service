@@ -6,17 +6,31 @@ CREATE TABLE outbox (
     payload JSON
 );
 
-CREATE TABLE entity (
-    id BIGINT PRIMARY KEY,
-    project VARCHAR(64),
-    code VARCHAR(64),
-    description VARCHAR(512)
+CREATE SEQUENCE IF NOT EXISTS entity_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 10;
+    
+CREATE TABLE IF NOT EXISTS functions
+(
+    id bigint NOT NULL DEFAULT nextval('entity_seq'::regclass),
+    project VARCHAR(64) NOT NULL,
+    code VARCHAR(64) NOT NULL,
+    name VARCHAR(128),
+    description VARCHAR(512),
+    CONSTRAINT functions_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE function (
-    id BIGINT PRIMARY KEY,
-    project VARCHAR(64),
-    code VARCHAR(64),
+ALTER SEQUENCE entity_seq OWNED BY functions.id;
+
+/*
+CREATE TABLE functions (
+    id BIGSERIAL PRIMARY KEY,
+    project VARCHAR(64) NOT NULL,
+    code VARCHAR(64) NOT NULL,
     name VARCHAR(128),
     description VARCHAR(512)
 );
+*/

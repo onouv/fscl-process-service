@@ -10,9 +10,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name="function")
-@NoArgsConstructor
-@Getter
-@Setter
 public class FunctionJpaData extends EntityJpaData  {
 }
 

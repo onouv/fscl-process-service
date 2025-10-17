@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Function extends FsclFunction {
 
-    protected Function(String code, String project, Function parent, String name, String description) {
+    public Function(String code, String project, Function parent, String name, String description) {
         super(new FsclEntityId(code, project), parent, name, description);
     }
 
