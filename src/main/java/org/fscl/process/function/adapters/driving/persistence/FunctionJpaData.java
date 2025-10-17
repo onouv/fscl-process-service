@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="function")
+@Table(name="functions")
 public class FunctionJpaData extends EntityJpaData  {
 }
 
