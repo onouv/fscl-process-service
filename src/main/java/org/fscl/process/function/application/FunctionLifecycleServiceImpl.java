@@ -13,11 +13,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.fscl.core.adapters.driven.web.EntityDto;
-import org.fscl.core.application.function.EntityRecord;
+import org.fscl.core.application.EntityRecord;
 import org.fscl.core.domain.entity.id.FsclEntityId;
 import org.fscl.core.domain.events.FsclDomainEvent;
-import org.fscl.core.ports.driven.web.lifecycle.FsclEntityState;
-import org.fscl.process.function.adapters.driving.persistence.FunctionRepository;
+import org.fscl.core.ports.web.driven.lifecycle.FsclEntityState;
+import org.fscl.process.function.adapters.persistence.driving.FunctionRepository;
 import org.fscl.process.function.domain.Function;
 import org.fscl.process.function.ports.driven.web.FunctionCreationResult;
 import org.fscl.process.function.ports.driven.web.FunctionLifeCycleService;

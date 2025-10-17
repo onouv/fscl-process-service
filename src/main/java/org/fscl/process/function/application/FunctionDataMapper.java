@@ -1,6 +1,6 @@
 package org.fscl.process.function.application;
 
-import org.fscl.process.function.adapters.driving.persistence.FunctionJpaData;
+import org.fscl.process.function.adapters.persistence.driving.FunctionJpaData;
 import org.fscl.process.function.domain.Function;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

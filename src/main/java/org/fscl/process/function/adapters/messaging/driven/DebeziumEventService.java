@@ -1,4 +1,4 @@
-package org.fscl.process.function.adapters.driven.msg;
+package org.fscl.process.function.adapters.messaging.driven;
 
 import org.fscl.core.domain.function.FunctionCreatedEvent;
 

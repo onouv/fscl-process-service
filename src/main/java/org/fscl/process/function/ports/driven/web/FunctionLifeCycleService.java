@@ -3,7 +3,7 @@ package org.fscl.process.function.ports.driven.web;
 import java.util.List;
 
 import org.fscl.core.adapters.driven.web.EntityDto;
-import org.fscl.core.application.function.EntityRecord;
+import org.fscl.core.application.EntityRecord;
 import org.fscl.core.domain.entity.id.FsclEntityId;
 
 

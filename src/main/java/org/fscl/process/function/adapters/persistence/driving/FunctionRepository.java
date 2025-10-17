@@ -1,4 +1,4 @@
-package org.fscl.process.function.adapters.driving.persistence;
+package org.fscl.process.function.adapters.persistence.driving;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
