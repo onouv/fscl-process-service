@@ -8,15 +8,18 @@
 	<name>fscl-process-service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<compiler-plugin.version>3.12.1</compiler-plugin.version>
-		<maven.compiler.release>17</maven.compiler.release>
+ 	    <debezium-quarkus-outbox-version>3.2.1.Final</debezium-quarkus-outbox-version>
+		<compiler-plugin.version>3.14.0</compiler-plugin.version>
+		<maven.compiler.release>21</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-		<quarkus.platform.version>3.9.1</quarkus.platform.version>
+		<quarkus.platform.version>3.28.2</quarkus.platform.version>
 		<skipITs>true</skipITs>
-		<surefire-plugin.version>3.2.5</surefire-plugin.version>
+		<surefire-plugin.version>3.5.4</surefire-plugin.version>
+		<org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <org.projectlombok.version>1.18.42</org.projectlombok.version>
 	</properties>
 
 
@@ -40,8 +43,7 @@
 	</dependencyManagement>
 
 	<dependencies>
-
-		<!-- QUARKUS -->
+		<!-- REST API stuff -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-rest</artifactId>
@@ -51,6 +53,22 @@
 			<artifactId>quarkus-rest-jackson</artifactId>
 		</dependency>
 		<dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        
+        <!-- Quarkus core stuff -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+        </dependency>
+		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-kubernetes</artifactId>
 		</dependency>
@@ -58,10 +76,8 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-container-image-jib</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-arc</artifactId>
-		</dependency>
+		
+		<!-- database stuff -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-hibernate-orm-panache</artifactId>
@@ -71,6 +87,16 @@
 			<artifactId>quarkus-jdbc-postgresql</artifactId>
 		</dependency>
 		<dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-flyway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
+        
+        <!-- messaging stuff -->
+		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-messaging-kafka</artifactId>
 		</dependency>
@@ -78,32 +104,17 @@
 			<groupId>io.debezium</groupId>
 			<artifactId>debezium-quarkus-outbox</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-junit5</artifactId>
-			<scope>test</scope>
-		</dependency>
+		
+		<!-- auxiliaries -->
 		<dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-flyway</artifactId>
+            <artifactId>quarkus-junit5</artifactId>
+            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-postgresql</artifactId>
-			<version>11.8.0</version>
-        </dependency>
-
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- general utils -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.42</version>
+			<version>${org.projectlombok.version}</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -121,13 +132,13 @@
 			<artifactId>javax.annotation-api</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-
-		<!-- FSCL specific -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
-		</dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+
+		<!-- FSCL stuff -->
 		<dependency>
 			<groupId>org.fscl</groupId>
 			<artifactId>fscl-core-lib</artifactId>
@@ -167,6 +178,18 @@
 					<compilerArgs>
 						<arg>-parameters</arg>
 					</compilerArgs>
+					<annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${org.projectlombok.version}</version>
+                        </path>                
+                    </annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -3,10 +3,10 @@ package org.fscl.process.function.adapters.driven.web;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.fscl.core.adapters.driven.web.lifecycle.*;
-import org.fscl.core.appservices.EntityRecord;
-import org.fscl.core.ports.upstream.web.lifecycle.FsclEntityState;
-import org.fscl.process.function.adapters.driving.persistence.FunctionRepository;
+
+import org.fscl.core.adapters.driven.web.*;
+import org.fscl.core.application.function.EntityRecord;
+import org.fscl.core.ports.driven.web.lifecycle.FsclEntityState;
 import org.fscl.process.function.ports.driven.web.FunctionLifeCycleService;
 import org.jboss.resteasy.reactive.RestResponse;
 import java.util.List;
@@ -17,9 +17,6 @@ public class FunctionEndpoint {
 
     @Inject
     FunctionLifeCycleService lifeCycleService;
-
-    @Inject
-    FunctionRepository repository;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -33,7 +30,7 @@ public class FunctionEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/create")
     public RestResponse<EntityExistingResponseDto>
-    createFunction(CreateEntityRequestDto dto) throws Exception {
+    createFunction(EntityDto dto) throws Exception {
 
         EntityRecord result = lifeCycleService
             .createFunction(dto.getId(), dto.getName(), dto.getDescription());
@@ -59,12 +56,9 @@ public class FunctionEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/by-project/{projectId}")
-    public RestResponse<List<FunctionDto>>
-    getAllFunctions(@PathParam("projectId") String projectId) {
-        List<FunctionDto> functions = repository.findAllForProject(projectId)
-                .stream()
-                .map(f -> FunctionDto.of(f))
-                .collect(Collectors.toList());
+    public RestResponse<List<EntityDto>>
+    getAllFunctions(@PathParam("projectId") String projectId) throws Exception {
+        List<EntityDto> functions = this.lifeCycleService.getAllForProject(projectId);
 
         return RestResponse.ok(functions);
     }
