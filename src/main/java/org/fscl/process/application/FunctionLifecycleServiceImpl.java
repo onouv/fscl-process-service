@@ -1,4 +1,4 @@
-package org.fscl.process.function.application;
+package org.fscl.process.application;
 
 import io.quarkus.logging.Log;
 
@@ -17,10 +17,10 @@ import org.fscl.core.application.EntityRecord;
 import org.fscl.core.domain.entity.id.FsclEntityId;
 import org.fscl.core.domain.events.FsclDomainEvent;
 import org.fscl.core.ports.web.driven.lifecycle.FsclEntityState;
-import org.fscl.process.function.adapters.persistence.driving.FunctionRepository;
-import org.fscl.process.function.domain.Function;
-import org.fscl.process.function.ports.driven.web.FunctionCreationResult;
-import org.fscl.process.function.ports.driven.web.FunctionLifeCycleService;
+import org.fscl.process.adapters.driving.persistence.FunctionRepository;
+import org.fscl.process.domain.Function;
+import org.fscl.process.ports.driven.FunctionLifeCycleService;
+import org.fscl.process.ports.driven.web.FunctionCreationResult;
 
 @ApplicationScoped
 public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
@@ -70,7 +70,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
         return new FunctionCreationResult(
                 function,
                 FsclEntityState.PreexistingInView,
-                new ArrayList<>());	// TODO: add a proper domain event
+                new ArrayList<>());
     }
 
     private FunctionCreationResult handleNew(FsclEntityId id, String name, String description) {

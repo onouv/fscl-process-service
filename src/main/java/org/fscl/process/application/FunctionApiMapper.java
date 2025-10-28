@@ -1,7 +1,7 @@
-package org.fscl.process.function.application;
+package org.fscl.process.application;
 
 import org.fscl.core.adapters.driven.web.EntityDto;
-import org.fscl.process.function.domain.Function;
+import org.fscl.process.domain.Function;
 
 public class FunctionApiMapper {
 

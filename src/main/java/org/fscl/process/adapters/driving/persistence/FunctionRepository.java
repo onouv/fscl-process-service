@@ -1,4 +1,4 @@
-package org.fscl.process.function.adapters.persistence.driving;
+package org.fscl.process.adapters.driving.persistence;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.fscl.core.domain.entity.id.FsclEntityId;
-import org.fscl.process.function.application.FunctionDataMapper;
-import org.fscl.process.function.domain.Function;
+import org.fscl.process.application.FunctionDataMapper;
+import org.fscl.process.domain.Function;
 
 @ApplicationScoped
 public class FunctionRepository implements PanacheRepository<FunctionJpaData> {

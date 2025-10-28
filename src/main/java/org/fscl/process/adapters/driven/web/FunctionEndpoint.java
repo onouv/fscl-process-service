@@ -1,4 +1,4 @@
-package org.fscl.process.function.adapters.web.driven;
+package org.fscl.process.adapters.driven.web;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.fscl.core.adapters.driven.web.*;
 import org.fscl.core.application.EntityRecord;
 import org.fscl.core.ports.web.driven.lifecycle.FsclEntityState;
-import org.fscl.process.function.ports.driven.web.FunctionLifeCycleService;
+import org.fscl.process.ports.driven.FunctionLifeCycleService;
 import org.jboss.resteasy.reactive.RestResponse;
 import java.util.List;
 import java.util.stream.Collectors;

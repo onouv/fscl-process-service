@@ -1,4 +1,4 @@
-package org.fscl.process.function.ports.driven.web;
+package org.fscl.process.ports.driven;
 
 import java.util.List;
 

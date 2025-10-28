@@ -1,4 +1,4 @@
-package org.fscl.process.function.domain;
+package org.fscl.process.domain;
 
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -8,7 +8,7 @@ import org.fscl.core.domain.events.FsclDomainEvent;
 import org.fscl.core.domain.function.FsclFunction;
 import org.fscl.core.domain.function.FunctionCreatedEvent;
 import org.fscl.core.ports.web.driven.lifecycle.FsclEntityState;
-import org.fscl.process.function.ports.driven.web.FunctionCreationResult;
+import org.fscl.process.ports.driven.web.FunctionCreationResult;
 
 import java.util.ArrayList;
 import java.util.List;

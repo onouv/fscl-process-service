@@ -1,4 +1,4 @@
-package org.fscl.process.function.adapters.persistence.driving;
+package org.fscl.process.adapters.driving.persistence;
 
 import org.fscl.core.domain.entity.id.FsclEntityId;
 

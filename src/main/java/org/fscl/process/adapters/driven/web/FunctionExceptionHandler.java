@@ -1,4 +1,4 @@
-package org.fscl.process.function.adapters.web.driven;
+package org.fscl.process.adapters.driven.web;
 
 import io.quarkus.logging.Log;
 import jakarta.ws.rs.core.Response;
