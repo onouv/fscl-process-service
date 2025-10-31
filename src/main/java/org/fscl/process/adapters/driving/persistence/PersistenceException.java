@@ -1,6 +1,6 @@
 package org.fscl.process.adapters.driving.persistence;
 
-import org.fscl.core.domain.entity.id.FsclEntityId;
+import org.fscl.core.commons.entity.FsclEntityId;
 
 public class PersistenceException extends RuntimeException {
 

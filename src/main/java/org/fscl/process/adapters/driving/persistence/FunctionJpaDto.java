@@ -10,6 +10,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name="functions")
-public class FunctionJpaData extends EntityJpaDto  {
+public class FunctionJpaDto extends EntityJpaDto  {
 }
 

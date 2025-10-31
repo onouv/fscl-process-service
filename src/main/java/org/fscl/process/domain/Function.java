@@ -1,29 +1,27 @@
 package org.fscl.process.domain;
 
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-
-import org.fscl.core.domain.entity.id.FsclEntityId;
-import org.fscl.core.domain.events.FsclDomainEvent;
-import org.fscl.core.domain.function.FsclFunction;
-import org.fscl.core.domain.function.FunctionCreatedEvent;
-import org.fscl.core.ports.web.driven.lifecycle.FsclEntityState;
-import org.fscl.process.ports.driven.web.FunctionCreationResult;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.fscl.core.commons.entity.FsclEntityId;
+import org.fscl.core.domain.entity.FsclFunction;
+import org.fscl.core.domain.events.FsclDomainEvent;
+import org.fscl.core.domain.events.FunctionCreatedEvent;
+import org.fscl.core.ports.lifecycle.FsclEntityState;
+import org.fscl.process.ports.driven.web.FunctionCreationResult;
+
+import lombok.experimental.SuperBuilder;
+
 @SuperBuilder
-@NoArgsConstructor
 public class Function extends FsclFunction {
 
-    public Function(String code, String project, Function parent, String name, String description) {
-        super(new FsclEntityId(code, project), parent, name, description);
-    }
+	public Function(FsclEntityId id, Function parent, String name, String description) {
+		super(id, parent, name, description);
+	}
 
-    public FunctionCreationResult created() {
-        List<FsclDomainEvent> events = new ArrayList<>();
-        events.add(new FunctionCreatedEvent(this));
-        return new FunctionCreationResult(this, FsclEntityState.CreatedInView, events);
-    }
+	public FunctionCreationResult created() {
+		List<FsclDomainEvent> events = new ArrayList<>();
+		events.add(new FunctionCreatedEvent("process", this));
+		return new FunctionCreationResult(this, FsclEntityState.CreatedInView, events);
+	}
 }
