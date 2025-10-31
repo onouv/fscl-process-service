@@ -4,7 +4,7 @@ NOTE : THIS IS WORK IN PROGRESS !
 
 A microservice backend to model a [process technology view](https://github.com/onouv/fscl/blob/main/doc/views/process-view/index.md) of a technical domain. The service allows users to create a general formal representation of the domain which is distributed and maintained consistently. The model is intended to be integrated with other views such as an automation or safety/reliability management view.
 
-[See more details on the overall idea...](https://github.com/onouv/fscl/blob/main/doc/README.md)
+[See more details on the overall idea...](https://github.com/onouv/fscl/blob/main/README.md)
 
 This is the backend service providing a REST API to a SPA web frontend. It runs as a pod in kubernetes deployment and is implemented
 in Quarkus. It maintains a data model and communicates updates
