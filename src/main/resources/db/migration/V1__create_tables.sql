@@ -16,8 +16,8 @@ CREATE SEQUENCE IF NOT EXISTS entity_seq
 CREATE TABLE IF NOT EXISTS functions
 (
     id bigint NOT NULL DEFAULT nextval('entity_seq'::regclass),
-    project VARCHAR(64) NOT NULL,
-    code VARCHAR(64) NOT NULL,
+    entityid_project VARCHAR(64) NOT NULL,
+    entityid_code VARCHAR(64) NOT NULL,
     name VARCHAR(128),
     description VARCHAR(512),
     CONSTRAINT functions_pkey PRIMARY KEY (id)

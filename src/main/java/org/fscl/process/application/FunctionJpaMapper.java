@@ -1,20 +1,24 @@
 package org.fscl.process.application;
 
 import org.fscl.core.adapters.driving.persistence.entity.EntityIdJpaDto;
+import org.fscl.core.application.EntityIdJpaMapper;
 import org.fscl.core.commons.entity.FsclEntityId;
 import org.fscl.process.adapters.driving.persistence.FunctionJpaDto;
 import org.fscl.process.domain.Function;
+import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-public abstract class FunctionDataMapper {
+@Mapper(uses = EntityIdJpaMapper.class)
+public abstract class FunctionJpaMapper {
 
-	public static final FunctionDataMapper INSTANCE = Mappers.getMapper(FunctionDataMapper.class);
+	public static final FunctionJpaMapper INSTANCE = Mappers.getMapper(FunctionJpaMapper.class);
 
 	public abstract FunctionJpaDto outwards(Function domain);
 
 	public Function inwards(FunctionJpaDto data) {
 		return Function.builder()
-			.entityId(this.entityIdInwards(data.getEntityId()))
+			// .entityId(this.entityIdInwards(data.getEntityId()))
+			.entityId(new FsclEntityId(data.getProject(), data.getCode()))
 			.name(data.getName())
 			.description(data.getDescription())
 			.build();
@@ -31,8 +35,6 @@ public abstract class FunctionDataMapper {
 		project = entityIdJpaDto.getProject();
 		code = entityIdJpaDto.getCode();
 
-		FsclEntityId fsclEntityId = new FsclEntityId(project, code);
-
-		return fsclEntityId;
+		return new FsclEntityId(project, code);
 	}
 }
