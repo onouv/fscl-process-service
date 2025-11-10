@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.fscl.core.application.EntityIdJpaMapper;
 import org.fscl.core.application.EntityRecord;
 import org.fscl.core.application.messaging.FunctionEventMapper;
 import org.fscl.core.commons.entity.FsclEntityData;
@@ -13,6 +14,7 @@ import org.fscl.core.domain.events.FsclDomainEvent;
 import org.fscl.core.ports.driving.messaging.FunctionMessagingPort;
 import org.fscl.core.ports.driving.messaging.MessagingException;
 import org.fscl.core.ports.lifecycle.FsclEntityState;
+import org.fscl.process.adapters.driving.persistence.FunctionJpaDto;
 import org.fscl.process.adapters.driving.persistence.FunctionRepository;
 import org.fscl.process.domain.Function;
 import org.fscl.process.ports.driven.FunctionLifeCycleService;
@@ -39,6 +41,9 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 	@Inject
 	FunctionRepository functionRepo;
 
+	@Inject
+	FunctionJpaMapper dataMapper;
+
 	@Override
 	@Transactional
 	public EntityRecord createFunction(FsclEntityId id, String name, String description) throws MessagingException {
@@ -57,15 +62,20 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
 	@Override
 	public List<FsclEntityData> getAllForProject(String projectId) throws Exception {
-		return this.functionRepo.findAllForProject(projectId).stream().map(f -> FunctionApiMapper.domain2Api(f))
-				.collect(Collectors.toList());
+		final List<FunctionJpaDto> dtos = this.functionRepo.findAllForProject(projectId);
+
+		final List<Function> functions = dtos.stream()
+			.map(dto -> this.dataMapper.inwards(dto))
+			.collect(Collectors.toList());
+
+		return functions.stream().map(f -> FunctionApiMapper.domain2Api(f)).collect(Collectors.toList());
 	}
 
 	public FunctionCreationResult create(FsclEntityId id, String name, String description) {
-		Optional<Function> viewFunction = functionRepo.findById(id);
+		Optional<FunctionJpaDto> viewFunction = functionRepo.findById(EntityIdJpaMapper.INSTANCE.outwards(id));
 
 		if (viewFunction.isPresent()) {
-			return this.handlePreExisting(viewFunction.get());
+			return this.handlePreExisting(this.dataMapper.inwards(viewFunction.get()));
 		}
 
 		return this.handleNew(id, name, description);
@@ -78,7 +88,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
 	private FunctionCreationResult handleNew(FsclEntityId id, String name, String description) {
 		Function newFunction = Function.builder().entityId(id).name(name).description(description).build();
-		this.functionRepo.persist(newFunction);
+		this.functionRepo.persist(dataMapper.outwards(newFunction));
 		Log.info(String.format("created new function %s in view.", newFunction.getEntityId().toString()));
 
 		return newFunction.created();

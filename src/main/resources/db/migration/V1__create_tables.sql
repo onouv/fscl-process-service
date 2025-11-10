@@ -24,13 +24,3 @@ CREATE TABLE IF NOT EXISTS functions
 );
 
 ALTER SEQUENCE entity_seq OWNED BY functions.id;
-
-/*
-CREATE TABLE functions (
-    id BIGSERIAL PRIMARY KEY,
-    project VARCHAR(64) NOT NULL,
-    code VARCHAR(64) NOT NULL,
-    name VARCHAR(128),
-    description VARCHAR(512)
-);
-*/
