@@ -9,7 +9,7 @@ import org.fscl.core.application.EntityIdJpaMapper;
 import org.fscl.core.application.EntityRecord;
 import org.fscl.core.application.messaging.FunctionEventMapper;
 import org.fscl.core.commons.entity.FsclEntityData;
-import org.fscl.core.commons.entity.FsclEntityId;
+import org.fscl.core.commons.entity.ResourceId;
 import org.fscl.core.domain.events.FsclDomainEvent;
 import org.fscl.core.ports.driving.messaging.FunctionMessagingPort;
 import org.fscl.core.ports.driving.messaging.MessagingException;
@@ -46,7 +46,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
 	@Override
 	@Transactional
-	public EntityRecord createFunction(FsclEntityId id, String name, String description) throws MessagingException {
+	public EntityRecord createFunction(ResourceId id, String name, String description) throws MessagingException {
 
 		// TODO: validate incoming id
 
@@ -71,7 +71,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 		return functions.stream().map(f -> FunctionApiMapper.domain2Api(f)).collect(Collectors.toList());
 	}
 
-	public FunctionCreationResult create(FsclEntityId id, String name, String description) {
+	public FunctionCreationResult create(ResourceId id, String name, String description) {
 		Optional<FunctionJpaDto> viewFunction = functionRepo.findById(EntityIdJpaMapper.INSTANCE.outwards(id));
 
 		if (viewFunction.isPresent()) {
@@ -86,7 +86,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 		return new FunctionCreationResult(function, FsclEntityState.PreexistingInView, new ArrayList<>());
 	}
 
-	private FunctionCreationResult handleNew(FsclEntityId id, String name, String description) {
+	private FunctionCreationResult handleNew(ResourceId id, String name, String description) {
 		Function newFunction = Function.builder().entityId(id).name(name).description(description).build();
 		this.functionRepo.persist(dataMapper.outwards(newFunction));
 		Log.info(String.format("created new function %s in view.", newFunction.getEntityId().toString()));

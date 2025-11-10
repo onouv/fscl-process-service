@@ -1,13 +1,13 @@
 package org.fscl.process.adapters.driving.persistence;
 
-import org.fscl.core.commons.entity.FsclEntityId;
+import org.fscl.core.commons.entity.ResourceId;
 
 public class PersistenceException extends RuntimeException {
 
-    public final FsclEntityId id;
+	public final ResourceId id;
 
-    public PersistenceException(FsclEntityId id) {
-        super("unknown persistence handling error");
-        this.id = id;
-    }
+	public PersistenceException(ResourceId id) {
+		super("unknown persistence handling error");
+		this.id = id;
+	}
 }

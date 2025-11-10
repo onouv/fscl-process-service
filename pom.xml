@@ -142,7 +142,7 @@
 		<dependency>
 			<groupId>org.fscl</groupId>
 			<artifactId>fscl-core-lib</artifactId>
-			<version>0.2.2-SNAPSHOT</version>
+			<version>0.2.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
