@@ -1,0 +1,29 @@
+package org.fscl.process.application;
+
+import org.fscl.core.commons.ResourceId;
+import org.fscl.core.commons.ResourceIdDataDto;
+import org.fscl.core.commons.ResourceIdDataMapper;
+import org.fscl.process.adapters.driving.persistence.FunctionDataDto;
+import org.fscl.process.domain.Function;
+
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class FunctionDataMapper {
+
+	private final ResourceIdDataMapper idMapper = ResourceIdDataMapper.INSTANCE;
+
+	public FunctionDataDto outwards(Function domain) {
+		return FunctionDataDto.builder().entityId(idMapper.outwards(domain.getResourceId())).build();
+	}
+
+	public Function inwards(FunctionDataDto data) {
+		ResourceIdDataDto id = data.getEntityId();
+		return Function.builder()
+			.resourceId(new ResourceId(id.getProject(), id.getCode()))
+			.name(data.getName())
+			.description(data.getDescription())
+			.build();
+	}
+
+}

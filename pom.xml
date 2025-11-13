@@ -4,9 +4,9 @@
 
 	<groupId>org.fscl.process.service</groupId>
 	<artifactId>process-service</artifactId>
-	<version>0.2.1-SNAPSHOT</version>
+	<version>0.2.4-SNAPSHOT</version>
 	<name>fscl-process-service</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Process view microservice of the FSCL system</description>
 	<properties>
  	    <debezium-quarkus-outbox-version>3.2.1.Final</debezium-quarkus-outbox-version>
 		<compiler-plugin.version>3.14.0</compiler-plugin.version>
@@ -142,7 +142,7 @@
 		<dependency>
 			<groupId>org.fscl</groupId>
 			<artifactId>fscl-core-lib</artifactId>
-			<version>0.2.3-SNAPSHOT</version>
+			<version>0.2.4-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

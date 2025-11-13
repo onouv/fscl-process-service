@@ -3,7 +3,7 @@ package org.fscl.process.adapters.messaging;
 import org.fscl.core.adapters.messaging.FunctionCreatedMessage;
 import org.fscl.core.adapters.messaging.FunctionDeletedMessage;
 import org.fscl.core.adapters.messaging.FunctionMessage;
-import org.fscl.core.commons.entity.EntityEventType;
+import org.fscl.core.commons.ResourceEventType;
 import org.fscl.core.ports.driving.messaging.DtoMappingFailedException;
 import org.fscl.core.ports.driving.messaging.FunctionCreatedEventDto;
 import org.fscl.core.ports.driving.messaging.FunctionDeletedEventDto;
@@ -16,13 +16,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 class FunctionMessageMapper {
 
 	FunctionMessage outwards(FunctionEventDto dto) throws MessagingException {
-		EntityEventType eventType = dto.getEventType();
+		ResourceEventType eventType = dto.getEventType();
 
 		switch (eventType) {
-			case EntityEventType.Created: {
+			case ResourceEventType.Created: {
 				return FunctionCreatedMessage.of((FunctionCreatedEventDto) dto);
 			}
-			case EntityEventType.Deleted: {
+			case ResourceEventType.Deleted: {
 				return FunctionDeletedMessage.of((FunctionDeletedEventDto) dto);
 			}
 			default: {
