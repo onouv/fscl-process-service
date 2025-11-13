@@ -3,7 +3,7 @@ package org.fscl.process.adapters.driving.persistence;
 import java.util.List;
 import java.util.Optional;
 
-import org.fscl.core.adapters.driving.persistence.entity.EntityIdJpaDto;
+import org.fscl.core.commons.entity.EntityIdJpaDto;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;

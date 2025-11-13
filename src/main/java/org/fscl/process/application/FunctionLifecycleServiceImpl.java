@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.fscl.core.application.EntityIdJpaMapper;
 import org.fscl.core.application.EntityRecord;
 import org.fscl.core.application.messaging.FunctionEventMapper;
+import org.fscl.core.commons.entity.EntityIdJpaMapper;
 import org.fscl.core.commons.entity.FsclEntityData;
 import org.fscl.core.commons.entity.ResourceId;
 import org.fscl.core.domain.events.FsclDomainEvent;
