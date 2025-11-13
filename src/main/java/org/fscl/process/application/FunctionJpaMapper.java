@@ -1,8 +1,8 @@
 package org.fscl.process.application;
 
-import org.fscl.core.adapters.driving.persistence.entity.EntityIdJpaDto;
-import org.fscl.core.application.EntityIdJpaMapper;
-import org.fscl.core.commons.entity.FsclEntityId;
+import org.fscl.core.commons.entity.EntityIdJpaDto;
+import org.fscl.core.commons.entity.EntityIdJpaMapper;
+import org.fscl.core.commons.entity.ResourceId;
 import org.fscl.process.adapters.driving.persistence.FunctionJpaDto;
 import org.fscl.process.domain.Function;
 
@@ -20,7 +20,7 @@ public class FunctionJpaMapper {
 	public Function inwards(FunctionJpaDto data) {
 		EntityIdJpaDto id = data.getEntityId();
 		return Function.builder()
-			.entityId(new FsclEntityId(id.getProject(), id.getCode()))
+			.entityId(new ResourceId(id.getProject(), id.getCode()))
 			.name(data.getName())
 			.description(data.getDescription())
 			.build();

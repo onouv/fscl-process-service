@@ -3,7 +3,7 @@ package org.fscl.process.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fscl.core.commons.entity.FsclEntityId;
+import org.fscl.core.commons.entity.ResourceId;
 import org.fscl.core.domain.entity.FsclFunction;
 import org.fscl.core.domain.events.FsclDomainEvent;
 import org.fscl.core.domain.events.FunctionCreatedEvent;
@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Function extends FsclFunction {
 
-	public Function(FsclEntityId id, Function parent, String name, String description) {
+	public Function(ResourceId id, Function parent, String name, String description) {
 		super(id, parent, name, description);
 	}
 

@@ -19,15 +19,15 @@ class FunctionMessageMapper {
 		EntityEventType eventType = dto.getEventType();
 
 		switch (eventType) {
-		case EntityEventType.Created: {
-			return FunctionCreatedMessage.of((FunctionCreatedEventDto) dto);
-		}
-		case EntityEventType.Deleted: {
-			return FunctionDeletedMessage.of((FunctionDeletedEventDto) dto);
-		}
-		default: {
-			throw new DtoMappingFailedException("Cannot outwards-map unhandled event type");
-		}
+			case EntityEventType.Created: {
+				return FunctionCreatedMessage.of((FunctionCreatedEventDto) dto);
+			}
+			case EntityEventType.Deleted: {
+				return FunctionDeletedMessage.of((FunctionDeletedEventDto) dto);
+			}
+			default: {
+				throw new DtoMappingFailedException("Cannot outwards-map unhandled event type");
+			}
 		}
 	}
 }
