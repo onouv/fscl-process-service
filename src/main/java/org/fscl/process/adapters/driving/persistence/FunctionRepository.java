@@ -13,13 +13,15 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class FunctionRepository implements PanacheRepository<FunctionDataDto> {
 
 	public Optional<FunctionDataDto> findById(ResourceIdDataDto id) throws PersistenceException {
-		final PanacheQuery<FunctionDataDto> q = find("project = ?1 and code = ?2", id.getProject(), id.getCode());
+		final PanacheQuery<FunctionDataDto> q = find(
+				"SELECT f FROM functions f WHERE f.entityid_project='?1' AND f.entityid_code='?2'", id.getProject(),
+				id.getCode());
 
 		return q.firstResultOptional();
 	}
 
 	public List<FunctionDataDto> findAllForProject(String projectId) {
-		final PanacheQuery<FunctionDataDto> q = find("project = ?1", projectId);
+		final PanacheQuery<FunctionDataDto> q = find("entityid_project = ?1", projectId);
 
 		return q.list();
 	}

@@ -1,0 +1,8 @@
+{
+  "resourceId": {
+    "project": "Impala",
+    "code": "=120.039"
+  },
+  "name": "Calibration",
+  "description": "Calibration of flow rate sensors"
+}

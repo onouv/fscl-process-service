@@ -42,7 +42,10 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 	FunctionRepository functionRepo;
 
 	@Inject
-	FunctionDataMapper dataMapper;
+	FunctionDataMapper functionMapper;
+
+	@Inject
+	ResourceIdDataMapper resourceIdMapper;
 
 	@Override
 	@Transactional
@@ -66,17 +69,17 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 		final List<FunctionDataDto> dtos = this.functionRepo.findAllForProject(projectId);
 
 		final List<Function> functions = dtos.stream()
-			.map(dto -> this.dataMapper.inwards(dto))
+			.map(dto -> this.functionMapper.inwards(dto))
 			.collect(Collectors.toList());
 
 		return functions.stream().map(f -> FunctionApiMapper.outwards(f)).collect(Collectors.toList());
 	}
 
 	public FunctionCreationResult create(ResourceId id, String name, String description) {
-		Optional<FunctionDataDto> viewFunction = functionRepo.findById(ResourceIdDataMapper.INSTANCE.outwards(id));
+		Optional<FunctionDataDto> viewFunction = functionRepo.findById(resourceIdMapper.outwards(id));
 
 		if (viewFunction.isPresent()) {
-			return this.handlePreExisting(this.dataMapper.inwards(viewFunction.get()));
+			return this.handlePreExisting(this.functionMapper.inwards(viewFunction.get()));
 		}
 
 		return this.handleNew(id, name, description);
@@ -89,7 +92,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
 	private FunctionCreationResult handleNew(ResourceId id, String name, String description) {
 		Function newFunction = Function.builder().resourceId(id).name(name).description(description).build();
-		this.functionRepo.persist(dataMapper.outwards(newFunction));
+		this.functionRepo.persist(functionMapper.outwards(newFunction));
 		Log.info(String.format("created new function %s in view.", newFunction.getResourceId().toString()));
 
 		return newFunction.created();

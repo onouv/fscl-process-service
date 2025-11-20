@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.fscl.process.service</groupId>
+	<groupId>org.fscl</groupId>
 	<artifactId>process-service</artifactId>
 	<version>0.2.4-SNAPSHOT</version>
 	<name>fscl-process-service</name>
@@ -141,7 +141,7 @@
 		<!-- FSCL stuff -->
 		<dependency>
 			<groupId>org.fscl</groupId>
-			<artifactId>fscl-core-lib</artifactId>
+			<artifactId>core-lib</artifactId>
 			<version>0.2.4-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

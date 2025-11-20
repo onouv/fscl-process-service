@@ -7,11 +7,13 @@ import org.fscl.process.adapters.driving.persistence.FunctionDataDto;
 import org.fscl.process.domain.Function;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class FunctionDataMapper {
 
-	private final ResourceIdDataMapper idMapper = ResourceIdDataMapper.INSTANCE;
+	@Inject
+	private ResourceIdDataMapper idMapper;
 
 	public FunctionDataDto outwards(Function domain) {
 		return FunctionDataDto.builder().entityId(idMapper.outwards(domain.getResourceId())).build();
