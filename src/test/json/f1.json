@@ -1,0 +1,8 @@
+{
+  "resourceId": {
+    "project": "Impala",
+    "code": "=120.040"
+  },
+  "name": "Calibration P Sensors",
+  "description": "Calibration of pressure sensors"
+}

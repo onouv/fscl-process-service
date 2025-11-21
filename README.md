@@ -2,36 +2,39 @@
 
 NOTE : THIS IS WORK IN PROGRESS !
 
-A microservice backend to [model a process technology view](doc/fscl-process-service/process-view/process-domain.md) of a technical domain. The service allows users to create a general formal representation of the domain which is distributed and maintained consistently. The model is intended to be integrated with other views such as an automation or safety/reliability management view. [More Details on the Concept...](https://github.com/onouv/fscl/blob/main/doc/fscl/Views/Views.md)
+A microservice backend to model a [process technology view](https://github.com/onouv/fscl/blob/main/doc/views/process-view/index.md) of a technical domain. The service allows users to create a general formal representation of the domain which is distributed and maintained consistently. The model is intended to be integrated with other views such as an automation or safety/reliability management view.
 
-This is the backend service providing a REST API to a SPA frontend. It runs as a pod in kubernetes and is implemented 
-in Quarkus. It maintains a data model and communicates updates 
+[See more details on the overall idea...](https://github.com/onouv/fscl/blob/main/README.md)
+
+This is the backend service providing a REST API to a SPA web frontend. It runs as a pod in kubernetes deployment and is implemented
+in Quarkus. It maintains a data model and communicates updates
 as events published on a kafka backend broker. It also subscribes to events to learn about remote model updates.
 
 ## START UP
 
-### Start minikube 
+### Start minikube
 
 ```
 $: minikube start --memory=4096 --driver=virtualbox --namespace=fscl
 ```
 
 ### Setup k8s Namespaces
+
 ```
 $: kubectl apply -f src/main/kubernetes/namespaces.yaml
 ```
 
-### Initialize Data Base 
-The database is expected to run in a kubernetes pod as well. This step provides two ConfigMaps in the k8s cluster with properties and credentials for it. 
+### Initialize Data Base
+
+The database is expected to run in a kubernetes deployment as well. This step provides a secret in the k8s cluster with credentials for it and sets up a postgres 15 instance in a deployment called `process-db`. The deployment is reachable from inside the k8s cluster by the url given in the spec file.
 
 #### Init Props and Credentials in k8s
 
 This [helper script](utils/db-init)
 
 - creates a kubernetes ConfigMap for the database url  
-- a Secret with user credentials by running this 
+- a Secret with user credentials by running this
 - spins up the k8s deployment
-
 
    ```
    $: db-init
@@ -46,17 +49,19 @@ This [helper script](utils/db-init)
    ```
 
 ### Setup Kafka and Debezium
+
 #### Strimzi Operator
 
-This constitutes the canonical way of installing / managing kafka in k8s. 
+This constitutes the canonical way of installing / managing kafka in k8s.
+
 ```
 $: kubectl apply -f src/main/kubernetes/strimzi-operator.yaml
 kafka.kafka.strimzi.io/kafka-cluster created
 kafkatopic.kafka.strimzi.io/process-functions created
 ```
 
-
 #### Kafka Cluster
+
 This sets up a single-node kafka cluster in the `fscl` namespace.
 
 ```
@@ -67,16 +72,15 @@ TODO: only works for `-n kafka` namespace. Need to figure out where to apply `wa
 
 ### Debezium
 
-
-
 Following the [Debezium Kubernetes guide](https://debezium.io/documentation/reference/stable/operations/kubernetes.html)
 
-#### Fetch the connector plugin 
+#### Fetch the connector plugin
+
 ```
 $: curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/3.1.0.Final/debezium-connector-postgres-3.1.0.Final-plugin.
 ```
 
-#### Build and push Docker Image 
+#### Build and reposition Docker Image
 
 Notice, `rabaul/fscl-kafka-connect:latest` is already existing, so these steps are shown for info only.  
 
@@ -96,11 +100,14 @@ $:kubectl apply -f ../src/main/kubernetes/debezium/debezium.yaml
 ```
 
 ### Build and Deploy the App
-#### Build the app and deploy it to your k8s cluster.
+
+#### Build the app and deploy it to your k8s cluster
+
 ```
 $: quarkus build; quarkus deploy
 ```
-This will spin up a pod for the application as well as a NodePort service for external access.   
+
+This will spin up a pod for the application as well as a NodePort service for external access.
 
 #### Inspect the k8s setup
 
@@ -123,9 +130,11 @@ process-db-props         1      1h
 
 ```
 
-### Test the deployed Enpoint 
+### Test the deployed Enpoint
+
 #### Retrieve the endpoint
-> Assuming the deployment happens on a local minikube cluster. For different platforms, the services url must be retrieved according to the specific technology (kubectl normally cannot provide that information, as mapping of ports is managed by the container system) 
+>
+> Assuming the deployment happens on a local minikube cluster. For different platforms, the services url must be retrieved according to the specific technology (kubectl normally cannot provide that information, as mapping of ports is managed by the container system)
 
 ```
 $: minikube service list -n fscl
@@ -139,12 +148,15 @@ $: minikube service list -n fscl
 ```
 
 > (1) the business endpoint  
->  
+> 
 > (2) Notice you can attach a debugger to the service at this endpoint  
   
 #### Check the endpoint
+
 ```
 $: curl http://192.168.59.117:30307/fscl/v2/process/function/lifesign
 fscl process service function endpoint is alive.
 ```
-   
+
+# [Implementation Notes](doc/implementation-notes/index.md)
+

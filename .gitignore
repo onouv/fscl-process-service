@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 
 data/
+pm/
 
 settings.xml
 **/kubernetes/debezium/
@@ -20,7 +21,7 @@ settings.xml
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
