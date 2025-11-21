@@ -16,7 +16,11 @@ public class FunctionDataMapper {
 	private ResourceIdDataMapper idMapper;
 
 	public FunctionDataDto outwards(Function domain) {
-		return FunctionDataDto.builder().entityId(idMapper.outwards(domain.getResourceId())).build();
+		return FunctionDataDto.builder()
+			.entityId(idMapper.outwards(domain.getResourceId()))
+			.name(domain.getName())
+			.description(domain.getDescription())
+			.build();
 	}
 
 	public Function inwards(FunctionDataDto data) {

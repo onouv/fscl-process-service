@@ -56,9 +56,8 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 		FunctionCreationResult result = this.create(id, name, description);
 
 		for (FsclDomainEvent evt : result.events()) {
-			Log.info("Firing event: " + evt.toString());
-
-			this.messagingPort.publish(this.eventMapper.outwards(evt));
+			Log.info("publishing event: " + evt.toString());
+			// this.messagingPort.publish(this.eventMapper.outwards(evt));
 		}
 		Function f = result.function();
 		return new ResourceRecord(f.getResourceId(), result.state());
@@ -66,7 +65,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 
 	@Override
 	public List<ResourceData> getAllForProject(String projectId) throws Exception {
-		final List<FunctionDataDto> dtos = this.functionRepo.findAllForProject(projectId);
+		final List<FunctionDataDto> dtos = this.functionRepo.findByIdProject(projectId);
 
 		final List<Function> functions = dtos.stream()
 			.map(dto -> this.functionMapper.inwards(dto))
@@ -76,7 +75,7 @@ public class FunctionLifecycleServiceImpl implements FunctionLifeCycleService {
 	}
 
 	public FunctionCreationResult create(ResourceId id, String name, String description) {
-		Optional<FunctionDataDto> viewFunction = functionRepo.findById(resourceIdMapper.outwards(id));
+		Optional<FunctionDataDto> viewFunction = functionRepo.findByIdOptional(resourceIdMapper.outwards(id));
 
 		if (viewFunction.isPresent()) {
 			return this.handlePreExisting(this.functionMapper.inwards(viewFunction.get()));
